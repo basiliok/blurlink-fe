@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Home, Login } from './pages';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home, Login, NotFound } from './pages';
 
 export const App = () => {
     return (
@@ -7,7 +7,7 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );
