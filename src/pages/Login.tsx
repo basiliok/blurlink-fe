@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -12,8 +12,8 @@ export const Login = () => {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
-            <form onSubmit={handleSubmit} className="w-80 space-y-4 rounded bg-white p-6 shadow">
+        <div className="flex min-h-screen items-center justify-center">
+            <form onSubmit={handleSubmit} className="w-80 space-y-4 rounded bg-[#a7a7a72c] p-6 shadow">
                 <h2 className="text-center text-xl font-bold">Login</h2>
 
                 <input

@@ -1,1 +1,39 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --color-background: #0d1117;
+    --color-foreground: 255 255 255;
+}
+
+/*========= All elements =========*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/*========= <html> =========*/
+:root {
+    color-scheme: dark;
+    color: white;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #0d1117;
+    font-size: 15px;
+    height: 100%;
+    width: 100%;
+    /*========= <body> =========*/
+    body {
+        font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+        height: 100%;
+        width: 100%;
+        /*========= <div id="root"> =========*/
+        #root {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
