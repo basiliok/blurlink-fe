@@ -1,3 +1,3 @@
 export const App = () => {
-    return <div className="bg-red-500">blurlink</div>;
+    return <div className="flex w-20 bg-red-500 text-blue-200">blurlink</div>;
 };
