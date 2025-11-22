@@ -1,3 +1,14 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Home, Login } from './pages';
+
 export const App = () => {
-    return <div className="flex w-20 bg-red-500 text-blue-200">blurlink</div>;
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </BrowserRouter>
+    );
 };
