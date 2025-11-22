@@ -44,3 +44,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_ROCK_05533B90F }}
           action: "close"
+          app_location: "/" # Added to suppress validation warning, not required for close action
+          output_location: "dist" # Added to suppress validation warning, not required for close action
