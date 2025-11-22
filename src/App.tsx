@@ -1,3 +1,3 @@
 export const App = () => {
-    return <div>blurlink</div>;
+    return <div className="bg-red-500">blurlink</div>;
 };
