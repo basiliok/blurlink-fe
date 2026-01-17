@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { GitHubIcon } from '../assets/icons/GitHubIcon';
+import { useLogin } from '../api';
 
 export const Login = () => {
-    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigate = useNavigate();
+    const { mutate: login, isPending, error } = useLogin();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (username && password) navigate('/home');
+        if (email && password) {
+            login({ email, password });
+        }
     };
 
     return (
@@ -21,15 +23,15 @@ export const Login = () => {
                 </div>
                 <form onSubmit={handleSubmit} className="flex w-80 flex-col gap-4">
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="username" className="text-size-sm font-semibold">
-                            Username
+                        <label htmlFor="email" className="text-size-sm font-semibold">
+                            Email
                         </label>
                         <input
-                            type="text"
-                            placeholder="Username"
+                            type="email"
+                            placeholder="Email"
                             className="border-input-border w-full rounded-md border px-4 py-2"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
@@ -47,11 +49,17 @@ export const Login = () => {
                             required
                         />
                     </div>
+                    {error && (
+                        <p className="text-size-sm text-red-500">
+                            {error instanceof Error ? error.message : 'Error al iniciar sesión'}
+                        </p>
+                    )}
                     <button
                         type="submit"
-                        className="bg-button-bg hover:bg-button-hover-bg text-size-sm w-full cursor-pointer rounded-md py-2 font-semibold"
+                        disabled={isPending}
+                        className="bg-button-bg hover:bg-button-hover-bg text-size-sm w-full cursor-pointer rounded-md py-2 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                        Sign in
+                        {isPending ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
             </div>
