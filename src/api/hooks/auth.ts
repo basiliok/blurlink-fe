@@ -9,8 +9,8 @@ export const useLogin = () => {
 
     return useMutation({
         mutationFn: login,
-        onSuccess: (data) => {
-            setToken(data.token.token);
+        onSuccess: (result) => {
+            setToken(result.token);
             navigate('/home');
         },
     });
