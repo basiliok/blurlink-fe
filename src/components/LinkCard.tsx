@@ -12,7 +12,7 @@ export const LinkCard = ({ link }: LinkCardProps) => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="border-input-border flex w-53 flex-row gap-2.5 rounded-lg border p-2 transition-colors hover:bg-[#2a333d]"
+            className="border-input-border flex w-42 flex-row gap-2.5 rounded-lg border p-2 transition-colors hover:bg-[#2a333d]"
         >
             <GenericIcon name={link.title} size="medium" />
             <div className="flex flex-col overflow-hidden">
