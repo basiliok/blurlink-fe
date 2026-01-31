@@ -6,7 +6,6 @@ export const useSpace = () => {
     return useQuery<Space[]>({
         queryKey: ['space'],
         queryFn: spaceService.getSpace,
-        staleTime: 60 * 60 * 1000,
     });
 };
 
@@ -14,7 +13,6 @@ export const useChainsBySpaceId = (spaceId: string | undefined) => {
     return useQuery<Chain[]>({
         queryKey: ['chains', spaceId],
         queryFn: () => spaceService.getChainsBySpaceId(spaceId!),
-        staleTime: 60 * 60 * 1000,
         enabled: !!spaceId,
     });
 };
@@ -23,7 +21,6 @@ export const useLinksByChainId = (spaceId: string | undefined, chainId: string |
     return useQuery<Link[]>({
         queryKey: ['links', spaceId, chainId],
         queryFn: () => spaceService.getLinksByChainId(spaceId!, chainId!),
-        staleTime: 60 * 60 * 1000,
         enabled: !!spaceId && !!chainId,
     });
 };
