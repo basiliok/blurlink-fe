@@ -43,7 +43,7 @@ export const Home = () => {
             </header>
 
             <main className="h-[calc(100%-4rem)] overflow-y-auto bg-[#212830]">
-                <div className="flex flex-col gap-8 p-6">
+                <div className="flex flex-col gap-8 p-5">
                     {space.note && (
                         <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
                             <div className="flex items-center gap-2">

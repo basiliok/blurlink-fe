@@ -12,9 +12,9 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
     const { data: links, isLoading } = useLinksByChainId(spaceId, chain.id);
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 rounded-lg">
             <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-semibold text-[#D1D7E0]">{chain.chainName}</h3>
+                <p className="text-md font-semibold text-[#D1D7E0]">{chain.chainName}</p>
                 <Line />
             </div>
 
