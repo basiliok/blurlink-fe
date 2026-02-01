@@ -1,4 +1,5 @@
 import { useSpace, useChainsBySpaceId } from '../api';
+import { ListIcon } from '../assets/icons/ListIcon';
 import { ChainCard, GenericIcon, Line } from '../components';
 import { useUserStore } from '../stores/user.store';
 
@@ -32,18 +33,20 @@ export const Home = () => {
 
     return (
         <div className="h-full w-full">
-            <header className="border-input-border h-16 border-b bg-[#151B23] px-6 py-4">
-                <div className="flex items-center justify-between text-[#D1D7E0]">
+            <header className="border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] px-6 py-3 text-[#D1D7E0]">
+                <div className="flex flex-row items-center gap-4">
+                    <ListIcon />
                     <h1 className="text-2xl font-bold">{space.name}</h1>
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm">{email}</span>
-                        <GenericIcon name={email} size="small" radius="round" />
-                    </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <span className="text-sm">{email}</span>
+                    <GenericIcon name={email} size="small" radius="round" />
                 </div>
             </header>
 
             <main className="h-[calc(100%-4rem)] overflow-y-auto bg-[#212830]">
-                <div className="flex flex-col gap-8 p-5">
+                <div className="flex flex-col gap-4 p-3.5">
                     {space.note && (
                         <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
                             <div className="flex items-center gap-2">
