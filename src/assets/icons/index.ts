@@ -1,0 +1,8 @@
+export { PlusCircleIcon } from './PlusCircleIcon';
+export { PlusIcon } from './PlusIcon';
+export { TrashIcon } from './TrashIcon';
+export { NotePencilIcon } from './NotePencilIcon';
+export { PencilSimpleIcon } from './PencilSimpleIcon';
+export { XIcon } from './XIcon';
+export { DotsThreeOutlineVerticalIcon } from './DotsThreeOutlineVerticalIcon';
+export { DotsThreeVerticalIcon } from './DotsThreeVerticalIcon';

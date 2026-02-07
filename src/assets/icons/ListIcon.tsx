@@ -1,10 +1,5 @@
 import type { FC } from 'react';
-
-export interface IconInterface {
-    color?: string;
-    size?: number;
-    title?: string;
-}
+import type { IconInterface } from '../../types';
 
 export const ListIcon: FC<IconInterface> = ({ color = 'currentColor', size = 32, title, ...rest }) => {
     return (
