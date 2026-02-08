@@ -6,3 +6,4 @@ export { PencilSimpleIcon } from './PencilSimpleIcon';
 export { XIcon } from './XIcon';
 export { DotsThreeOutlineVerticalIcon } from './DotsThreeOutlineVerticalIcon';
 export { DotsThreeVerticalIcon } from './DotsThreeVerticalIcon';
+export { SpinnerGapIcon } from './SpinnerGapIcon';

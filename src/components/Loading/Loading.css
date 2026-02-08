@@ -1,0 +1,9 @@
+@keyframes spin-steps {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-steps {
+    animation: spin-steps 0.8s steps(8, end) infinite;
+}

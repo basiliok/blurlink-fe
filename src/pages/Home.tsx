@@ -1,6 +1,6 @@
 import { useSpace, useChainsBySpaceId } from '../api';
 import { ListIcon } from '../assets/icons/ListIcon';
-import { ChainCard, GenericIcon, Line } from '../components';
+import { ChainCard, GenericIcon, Line, Loading } from '../components';
 import { useUserStore } from '../stores/user.store';
 
 export const Home = () => {
@@ -15,15 +15,15 @@ export const Home = () => {
 
     if (isLoading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-100">
-                <div className="text-lg text-gray-600">Loading...</div>
+            <div className="flex min-h-screen items-center justify-center">
+                <Loading color="#D1D7E0" />
             </div>
         );
     }
 
     if (spaceError || !space) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-100">
+            <div className="flex min-h-screen items-center justify-center">
                 <div className="text-lg text-red-600">Error loading space</div>
             </div>
         );
