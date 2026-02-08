@@ -7,3 +7,5 @@ export { XIcon } from './XIcon';
 export { DotsThreeOutlineVerticalIcon } from './DotsThreeOutlineVerticalIcon';
 export { DotsThreeVerticalIcon } from './DotsThreeVerticalIcon';
 export { SpinnerGapIcon } from './SpinnerGapIcon';
+export { SignInIcon } from './SignInIcon';
+export { SignOutIcon } from './SignOutIcon';
