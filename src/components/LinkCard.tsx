@@ -26,7 +26,10 @@ export const LinkCard = ({ link }: LinkCardProps) => {
                     </span>
                 </div>
             </a>
-            <button className="flex w-6 cursor-pointer items-center justify-center text-[#5c6166] transition-colors hover:bg-[#2a333d] hover:text-[#D1D7E0]">
+            <button
+                type="button"
+                className="flex w-6 cursor-pointer items-center justify-center text-[#44474b] transition-colors hover:bg-[#2a333d] hover:text-[#D1D7E0]"
+            >
                 <DotsThreeVerticalIcon size="1.5rem" />
             </button>
         </div>

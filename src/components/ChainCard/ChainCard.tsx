@@ -5,6 +5,7 @@ import { LinkCard } from '../LinkCard';
 import './ChainCard.css';
 import { PlusIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
+import { SuperLink } from '../SuperLink';
 
 interface ChainCardProps {
     chain: Chain;
@@ -24,18 +25,23 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                     </div>
                     <div className="flex flex-row items-center justify-center gap-1 text-[#9198A1]">
                         <button
+                            type="button"
                             onClick={() => setIsCreateModalOpen(true)}
                             className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0]"
                         >
                             <PlusIcon size={'1.125rem'} />
                         </button>
-                        <button className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0]">
+                        <button
+                            type="button"
+                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0]"
+                        >
                             <TrashIcon size={'1.125rem'} />
                         </button>
                     </div>
                 </div>
 
                 <div className="auto-grid p-2.5">
+                    <SuperLink />
                     {isLoading ? (
                         <p className="text-sm text-gray-400">Loading links...</p>
                     ) : (

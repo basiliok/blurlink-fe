@@ -5,7 +5,7 @@ interface AvatarProps {
 }
 
 const sizeClasses = {
-    small: 'h-7 w-7 text-xs',
+    small: 'h-6 w-6 text-xs',
     medium: 'h-[2.375rem] w-[2.375rem] text-sm',
 };
 
