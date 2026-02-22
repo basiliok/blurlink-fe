@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import type { Chain } from '../../types';
 import { useLinksByChainId } from '../../api';
-import { LinkCard } from '../LinkCard';
+import { SimpleLinkCard } from '../SimpleLinkCard';
 import './ChainCard.css';
 import { PlusIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
-import { SuperLink } from '../SuperLink';
+import { MultiLinkCard } from '../MultiLinkCard';
 
 interface ChainCardProps {
     chain: Chain;
@@ -41,11 +41,18 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                 </div>
 
                 <div className="auto-grid p-2.5">
-                    <SuperLink />
+                    {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
+                    <MultiLinkCard />
                     {isLoading ? (
                         <p className="text-sm text-gray-400">Loading links...</p>
                     ) : (
-                        links && links.length > 0 && links.map((link) => <LinkCard key={link.id} link={link} />)
+                        links &&
+                        links.length > 0 &&
+                        links.map((link) => {
+                            if (link.type === 'simple') {
+                                return <SimpleLinkCard key={link.id} link={link} />;
+                            }
+                        })
                     )}
                 </div>
             </div>
@@ -54,6 +61,8 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                 isOpen={isCreateModalOpen}
                 onClose={() => setIsCreateModalOpen(false)}
                 chainName={chain.chainName}
+                spaceId={spaceId}
+                chainId={chain.id}
             />
         </>
     );

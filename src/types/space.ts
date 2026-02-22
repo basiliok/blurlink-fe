@@ -24,14 +24,14 @@ export interface Chain {
     updatedAt: string;
 }
 
-export type LinkType = 'link' | 'superlink';
+export type LinkType = 'simple' | 'multi';
 
-export interface Link {
+export interface SimpleLink {
     id: string;
     userId: string;
     spaceId: string;
     chainId: string;
-    type: LinkType;
+    type: 'simple';
     title: string;
     url: string;
     note: string;
@@ -39,17 +39,39 @@ export interface Link {
     updatedAt: string;
 }
 
+/**
+ * Bulk Simple Link Creation
+ */
+export interface BulkSimpleLinkItem {
+    title: string;
+    url: string;
+}
+
+export interface CreateBulkLinksRequest {
+    spaceId: string;
+    chainId: string;
+    links: BulkSimpleLinkItem[];
+}
+
+export interface BulkSimpleLinksResponse {
+    created: number;
+    links: SimpleLink[];
+}
+
+/**
+ * MultiLink
+ */
 export interface MiniLinkItem {
     label: string;
     url: string;
 }
 
-export interface SuperLink {
+export interface MultiLink {
     id: string;
     userId: string;
     spaceId: string;
     chainId: string;
-    type: LinkType;
+    type: 'multi';
     title: string;
     note: string;
     minilinks: MiniLinkItem[];
@@ -57,4 +79,4 @@ export interface SuperLink {
     updatedAt: string;
 }
 
-export type LinkItem = Link | SuperLink;
+export type LinkItem = SimpleLink | MultiLink;

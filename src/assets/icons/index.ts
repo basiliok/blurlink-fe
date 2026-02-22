@@ -9,3 +9,4 @@ export { DotsThreeVerticalIcon } from './DotsThreeVerticalIcon';
 export { SpinnerGapIcon } from './SpinnerGapIcon';
 export { SignInIcon } from './SignInIcon';
 export { SignOutIcon } from './SignOutIcon';
+export { FileTextIcon } from './FileTextIcon';

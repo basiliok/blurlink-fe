@@ -1,13 +1,13 @@
-import type { Link } from '../types';
 import { GenericIcon } from './GenericIcon';
 import { getDomain } from '../utils/url';
 import { DotsThreeVerticalIcon } from '../assets/icons';
+import type { SimpleLink } from '../types';
 
-interface LinkCardProps {
-    link: Link;
+interface SimpleLinkProps {
+    link: SimpleLink;
 }
 
-export const LinkCard = ({ link }: LinkCardProps) => {
+export const SimpleLinkCard = ({ link }: SimpleLinkProps) => {
     return (
         <div className="border-input-border flex flex-row rounded-[0.375rem] border">
             <a

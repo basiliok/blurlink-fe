@@ -1,4 +1,2 @@
-export * from './hooks/auth';
-export * from './services/auth';
-export * from './hooks/space';
-export * from './services/space';
+export * from './hooks';
+export * from './services';

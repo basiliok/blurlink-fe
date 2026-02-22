@@ -5,7 +5,7 @@ import { ListIcon } from '../assets/icons/ListIcon';
 import { ChainCard, GenericIcon, Line, Loading } from '../components';
 import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
-import { SignOutIcon } from '../assets/icons';
+import { FileTextIcon, SignOutIcon } from '../assets/icons';
 
 export const Home = () => {
     const email = useUserStore((state) => state.email);
@@ -34,7 +34,7 @@ export const Home = () => {
     };
 
     const { data: spaces, isLoading: spaceLoading, error: spaceError } = useSpace();
-    const space = spaces?.[0];
+    const space = spaces?.[0] ?? null;
 
     const { data: chains, isLoading: chainsLoading } = useChainsBySpaceId(space?.id);
 
@@ -69,12 +69,14 @@ export const Home = () => {
                 <div className="flex items-center gap-3">
                     <span className="text-sm">{email}</span>
                     <div className="relative" ref={menuRef}>
-                        <button onClick={() => setMenuOpen((prev) => !prev)} className="cursor-pointer">
+                        <button type="button" onClick={() => setMenuOpen((prev) => !prev)} className="cursor-pointer">
                             <GenericIcon name={email} size="small" radius="round" />
                         </button>
+                        {/* sacar como componente */}
                         {menuOpen && (
                             <div className="absolute right-0 z-50 mt-2 w-44 rounded-lg border border-[#3D444D] bg-[#1C2128] shadow-lg">
                                 <button
+                                    type="button"
                                     onClick={handleLogout}
                                     className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-[#D1D7E0] hover:bg-[#2D333B]"
                                 >
@@ -91,21 +93,9 @@ export const Home = () => {
                 <div className="flex flex-col gap-4 p-3.5">
                     {space.note && (
                         <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
-                            <div className="flex items-center gap-2">
-                                <svg
-                                    className="h-4 w-4 text-[#8B949E]"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                    />
-                                </svg>
-                                <span className="text-sm font-medium text-[#8B949E]">Notas</span>
+                            <div className="flex items-center gap-2 text-[#8B949E]">
+                                <FileTextIcon size="1.25rem" />
+                                <span className="text-sm font-medium">Notas</span>
                             </div>
                             <Line />
                             <p className="min-h-10 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#D1D7E0]">

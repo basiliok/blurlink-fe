@@ -1,7 +1,7 @@
 import { GenericIcon } from './GenericIcon';
 import { DotsThreeVerticalIcon } from '../assets/icons';
 
-export const SuperLink = () => {
+export const MultiLinkCard = () => {
     return (
         <div className="border-input-border superlink flex flex-row rounded-md border">
             <div className="flex flex-1 flex-col">

@@ -14,6 +14,7 @@ export const Modal = ({ title, isOpen, onClose, children, maxWidth = 'max-w-160'
                 <div className="flex items-center justify-between border-b border-[#3d444d] px-4 py-3">
                     {title && <h2 className="text-base font-medium text-[#f0f6fc]">{title}</h2>}
                     <button
+                        type="button"
                         onClick={onClose}
                         className="flex h-6 w-6 cursor-pointer items-center justify-center text-[#9198A1] transition-colors hover:text-[#f0f6fc]"
                     >
