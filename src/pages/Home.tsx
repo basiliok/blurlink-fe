@@ -74,7 +74,10 @@ export const Home = () => {
                         </button>
                         {/* sacar como componente */}
                         {menuOpen && (
-                            <div className="absolute right-0 z-50 mt-2 w-44 rounded-lg border border-[#3D444D] bg-[#1C2128] shadow-lg">
+                            <div
+                                style={{ animation: 'slide-in-bottom 0.2s ease-out both' }}
+                                className="absolute right-0 z-50 mt-2 w-44 rounded-lg border border-[#3D444D] bg-[#1C2128] shadow-2xl"
+                            >
                                 <button
                                     type="button"
                                     onClick={handleLogout}
