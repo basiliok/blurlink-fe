@@ -58,6 +58,18 @@ export interface BulkSimpleLinksResponse {
     links: SimpleLink[];
 }
 
+export interface UpdateSimpleLinkRequest {
+    chainId: string;
+    title: string;
+    url: string;
+    note: string;
+}
+
+export interface UpdateSimpleLinkParams {
+    linkId: string;
+    body: UpdateSimpleLinkRequest;
+}
+
 /**
  * MultiLink
  */

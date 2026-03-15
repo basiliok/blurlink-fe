@@ -48,6 +48,8 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                         placeholder="Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        // biome-ignore lint/a11y/noAutofocus: focus moves to first input when modal opens, per WAI-ARIA dialog pattern
+                        autoFocus
                         className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
                     />
                     <Line />
@@ -65,7 +67,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                         type="button"
                         onClick={handleClose}
                         disabled={isPending}
-                        className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         Cancelar
                     </button>
@@ -73,7 +75,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                         type="button"
                         onClick={handleSave}
                         disabled={isPending}
-                        className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] active:bg-[#1a7f2e] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {isPending && <Loading size={'1rem'} />}
                         {isPending ? 'Creando...' : 'Crear link'}

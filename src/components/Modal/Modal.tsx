@@ -6,9 +6,10 @@ export const Modal = ({ title, isOpen, onClose, children, maxWidth = 'max-w-160'
     if (!isOpen) return null;
 
     return ReactDOM.createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center" onClick={onClose}>
             <div
-                className={`relative w-full ${maxWidth} mx-4 rounded-[0.375rem] border border-[#3d444d] bg-[#161b22] shadow-lg`}
+                className={`relative w-full ${maxWidth} mx-4 my-20 rounded-[0.375rem] border border-[#3d444d] bg-[#161b22] shadow-lg`}
+                style={{ animation: 'slide-in-bottom 0.2s ease-out both' }}
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="flex items-center justify-between border-b border-[#3d444d] px-4 py-3">
@@ -16,7 +17,7 @@ export const Modal = ({ title, isOpen, onClose, children, maxWidth = 'max-w-160'
                     <button
                         type="button"
                         onClick={onClose}
-                        className="flex h-6 w-6 cursor-pointer items-center justify-center text-[#9198A1] transition-colors hover:text-[#f0f6fc]"
+                        className="flex h-6 w-6 cursor-pointer items-center justify-center text-[#9198A1] transition-colors hover:text-[#f0f6fc] active:text-[#768390]"
                     >
                         <XIcon size="1.25rem" />
                     </button>

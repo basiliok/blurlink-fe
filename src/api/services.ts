@@ -6,7 +6,9 @@ import type {
     CreateBulkLinksRequest,
     LinkItem,
     LoginRequest,
+    SimpleLink,
     Space,
+    UpdateSimpleLinkParams,
 } from '../types';
 
 export const login = async (credentials: LoginRequest): Promise<any> => {
@@ -31,5 +33,10 @@ export const getLinksByChainId = async (spaceId: string, chainId: string): Promi
 
 export const createBulkLinks = async (request: CreateBulkLinksRequest): Promise<BulkSimpleLinksResponse> => {
     const { data } = await api.post<ApiResponse>('/link/simple/bulk', request);
+    return data.result;
+};
+
+export const updateSimpleLink = async ({ linkId, body }: UpdateSimpleLinkParams): Promise<SimpleLink> => {
+    const { data } = await api.patch<ApiResponse>(`/link/simple/${linkId}`, body);
     return data.result;
 };

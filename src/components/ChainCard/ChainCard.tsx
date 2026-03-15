@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Chain } from '../../types';
 import { useLinksByChainId } from '../../api';
-import { SimpleLinkCard } from '../SimpleLinkCard';
+import { SimpleLinkCard } from '../SimpleLinkCard/SimpleLinkCard';
 import './ChainCard.css';
 import { PlusIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
@@ -27,13 +27,13 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                         <button
                             type="button"
                             onClick={() => setIsCreateModalOpen(true)}
-                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0]"
+                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
                             <PlusIcon size={'1.125rem'} />
                         </button>
                         <button
                             type="button"
-                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0]"
+                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
                             <TrashIcon size={'1.125rem'} />
                         </button>
