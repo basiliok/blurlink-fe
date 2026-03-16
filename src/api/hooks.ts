@@ -2,9 +2,24 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
-import { createBulkLinks, getChainsBySpaceId, getLinksByChainId, getSpace, login, updateSimpleLink } from './services';
+import {
+    createBulkLinks,
+    deleteSimpleLink,
+    getChainsBySpaceId,
+    getLinksByChainId,
+    getSpace,
+    login,
+    updateSimpleLink,
+} from './services';
 import { decodeJwt } from '../utils/jwt';
-import type { Space, Chain, CreateBulkLinksRequest, LinkItem, UpdateSimpleLinkParams } from '../types/space';
+import type {
+    Space,
+    Chain,
+    CreateBulkLinksRequest,
+    DeleteSimpleLinkParams,
+    LinkItem,
+    UpdateSimpleLinkParams,
+} from '../types/space';
 
 export const useLogin = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
@@ -39,7 +54,7 @@ export const useChainsBySpaceId = (spaceId?: string) => {
 
 export const useLinksByChainId = (spaceId?: string, chainId?: string) => {
     return useQuery<LinkItem[]>({
-        queryKey: ['links', spaceId, chainId],
+        queryKey: ['links', chainId],
         queryFn: () => getLinksByChainId(spaceId as string, chainId as string),
         enabled: Boolean(spaceId) && Boolean(chainId),
     });
@@ -51,18 +66,29 @@ export const useCreateBulkLinks = () => {
     return useMutation({
         mutationFn: (request: CreateBulkLinksRequest) => createBulkLinks(request),
         onSuccess: (_data, request) => {
-            queryClient.invalidateQueries({ queryKey: ['links', request.spaceId, request.chainId] });
+            queryClient.invalidateQueries({ queryKey: ['links', request.chainId] });
         },
     });
 };
 
-export const useUpdateSimpleLink = (spaceId: string) => {
+export const useUpdateSimpleLink = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: (params: UpdateSimpleLinkParams) => updateSimpleLink(params),
         onSuccess: (_data, { body }) => {
-            queryClient.invalidateQueries({ queryKey: ['links', spaceId, body.chainId] });
+            queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
+        },
+    });
+};
+
+export const useDeleteSimpleLink = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (params: DeleteSimpleLinkParams) => deleteSimpleLink(params),
+        onSuccess: (_data, { body }) => {
+            queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
         },
     });
 };

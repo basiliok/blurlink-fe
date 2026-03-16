@@ -4,6 +4,7 @@ import type {
     BulkSimpleLinksResponse,
     Chain,
     CreateBulkLinksRequest,
+    DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
     SimpleLink,
@@ -39,4 +40,8 @@ export const createBulkLinks = async (request: CreateBulkLinksRequest): Promise<
 export const updateSimpleLink = async ({ linkId, body }: UpdateSimpleLinkParams): Promise<SimpleLink> => {
     const { data } = await api.patch<ApiResponse>(`/link/simple/${linkId}`, body);
     return data.result;
+};
+
+export const deleteSimpleLink = async ({ linkId, body }: DeleteSimpleLinkParams): Promise<void> => {
+    await api.delete(`/link/${linkId}`, { data: body });
 };

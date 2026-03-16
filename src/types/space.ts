@@ -70,6 +70,15 @@ export interface UpdateSimpleLinkParams {
     body: UpdateSimpleLinkRequest;
 }
 
+export interface DeleteSimpleLinkRequest {
+    chainId: string;
+}
+
+export interface DeleteSimpleLinkParams {
+    linkId: string;
+    body: DeleteSimpleLinkRequest;
+}
+
 /**
  * MultiLink
  */

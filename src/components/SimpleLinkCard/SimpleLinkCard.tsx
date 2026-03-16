@@ -40,12 +40,7 @@ export const SimpleLinkCard = ({ link }: SimpleLinkProps) => {
                 </button>
             </div>
 
-            <EditLinkModal
-                isOpen={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
-                link={link}
-                spaceId={link.spaceId}
-            />
+            <EditLinkModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} link={link} />
         </>
     );
 };
