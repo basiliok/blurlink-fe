@@ -5,7 +5,7 @@ import { SimpleLinkCard } from '../SimpleLinkCard/SimpleLinkCard';
 import './ChainCard.css';
 import { PlusIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
-import { MultiLinkCard } from '../MultiLinkCard';
+//import { MultiLinkCard } from '../MultiLinkCard';
 
 interface ChainCardProps {
     chain: Chain;
@@ -42,7 +42,7 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
 
                 <div className="auto-grid p-2.5">
                     {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
-                    <MultiLinkCard />
+                    {/* <MultiLinkCard /> */}
                     {isLoading ? (
                         <p className="text-sm text-gray-400">Loading links...</p>
                     ) : (
