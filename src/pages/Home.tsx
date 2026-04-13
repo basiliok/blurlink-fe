@@ -84,7 +84,7 @@ export const Home = () => {
                                     className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-[#D1D7E0] hover:bg-[#2D333B]"
                                 >
                                     <SignOutIcon size="1.25rem" />
-                                    Cerrar sesión
+                                    Sign out
                                 </button>
                             </div>
                         )}
@@ -98,7 +98,7 @@ export const Home = () => {
                         <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
                             <div className="flex items-center gap-2 text-[#8B949E]">
                                 <FileTextIcon size="1.25rem" />
-                                <span className="text-sm font-medium">Notas</span>
+                                <span className="text-sm font-medium">Notes</span>
                             </div>
                             <Line />
                             <p className="min-h-10 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#D1D7E0]">

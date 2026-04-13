@@ -51,7 +51,7 @@ export const Login = () => {
                     </div>
                     {error && (
                         <p className="text-size-sm text-red-500">
-                            {error instanceof Error ? error.message : 'Error al iniciar sesión'}
+                            {error instanceof Error ? error.message : 'Sign in failed'}
                         </p>
                     )}
                     <button

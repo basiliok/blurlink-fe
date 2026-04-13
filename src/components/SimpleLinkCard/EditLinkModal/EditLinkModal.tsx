@@ -58,7 +58,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
     };
 
     return (
-        <Modal title={`Editar - ${link.title}`} isOpen={isOpen} onClose={handleClose}>
+        <Modal title={`Edit - ${link.title}`} isOpen={isOpen} onClose={handleClose}>
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
                     <input
@@ -89,7 +89,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                     >
                         {isDeleting && <Loading size="1rem" />}
                         <TrashIcon size="1rem" />
-                        {isDeleting ? 'Eliminando...' : 'Eliminar'}
+                        {isDeleting ? 'Deleting...' : 'Delete'}
                     </button>
 
                     <div className="flex gap-2">
@@ -99,7 +99,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                             disabled={isPending}
                             className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            Cancelar
+                            Cancel
                         </button>
                         <button
                             type="button"
@@ -108,7 +108,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                             className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] active:bg-[#1a7f2e] disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {isPending && <Loading size={'1rem'} />}
-                            {isPending ? 'Guardando...' : 'Guardar'}
+                            {isPending ? 'Saving...' : 'Save'}
                         </button>
                     </div>
                 </div>

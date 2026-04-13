@@ -69,7 +69,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                         disabled={isPending}
                         className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                        Cancelar
+                        Cancel
                     </button>
                     <button
                         type="button"
@@ -78,7 +78,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                         className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] active:bg-[#1a7f2e] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {isPending && <Loading size={'1rem'} />}
-                        {isPending ? 'Creando...' : 'Crear link'}
+                        {isPending ? 'Creating...' : 'Create link'}
                     </button>
                 </div>
             </div>
