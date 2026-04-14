@@ -18,29 +18,35 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
 
     return (
         <>
-            <div className="flex flex-col overflow-hidden rounded-[0.375rem] border border-[#3d444d]">
-                <div className="flex h-8 flex-row items-center justify-between border-b border-[#3d444d] px-2.5 py-1">
-                    <div>
-                        <p className="text-sm text-[#D1D7E0]">{chain.chainName.toUpperCase()}</p>
+            <div className="flex flex-col overflow-hidden">
+                <div className="flex h-7 flex-row items-center justify-between px-2">
+                    <div className="flex flex-row items-center gap-2">
+                        <p className="text-sm font-[500] text-[#D1D7E0]">{chain.chainName.toUpperCase()}</p>
+                        {links && (
+                            <>
+                                <span className="text-sm text-[#6E7681]">·</span>
+                                <span className="text-sm text-[#6E7681]">{links?.length ?? 0} links</span>
+                            </>
+                        )}
                     </div>
-                    <div className="flex flex-row items-center justify-center gap-1 text-[#9198A1]">
+                    <div className="flex flex-row items-center justify-center gap-2 text-[#9198A1]">
                         <button
                             type="button"
                             onClick={() => setIsCreateModalOpen(true)}
                             className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
-                            <PlusIcon size={'1.125rem'} />
+                            <PlusIcon size={'1.375rem'} />
                         </button>
                         <button
                             type="button"
                             className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
-                            <TrashIcon size={'1.125rem'} />
+                            <TrashIcon size={'1.375rem'} />
                         </button>
                     </div>
                 </div>
 
-                <div className="auto-grid p-2.5">
+                <div className="auto-grid rounded-[0.375rem] bg-[#1E252D] p-2">
                     {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
                     {/* <MultiLinkCard /> */}
                     {isLoading ? (

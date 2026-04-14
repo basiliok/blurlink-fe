@@ -6,8 +6,10 @@ import { ChainCard, GenericIcon, Line, Loading } from '../components';
 import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
 import { FileTextIcon, SignOutIcon } from '../assets/icons';
+import { useIsDesktop } from '../hooks';
 
 export const Home = () => {
+    const isDesktop = useIsDesktop();
     const email = useUserStore((state) => state.email);
     const clearUser = useUserStore((state) => state.clearUser);
     const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -60,7 +62,7 @@ export const Home = () => {
 
     return (
         <div className="h-full w-full">
-            <header className="border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] px-6 py-3 text-[#D1D7E0]">
+            <header className={`border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] py-3 text-[#D1D7E0] ${isDesktop ? 'px-12' : 'px-6'}`}>
                 <div className="flex flex-row items-center gap-4">
                     <ListIcon />
                     <h1 className="text-2xl font-bold">{space.name}</h1>
@@ -93,7 +95,7 @@ export const Home = () => {
             </header>
 
             <main className="h-[calc(100%-4rem)] overflow-y-auto bg-[#212830]">
-                <div className="flex flex-col gap-4 p-3.5">
+                <div className={`flex flex-col gap-4 ${isDesktop ? 'mx-auto max-w-400 px-12 py-6' : 'p-3.5'}`}>
                     {space.note && (
                         <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
                             <div className="flex items-center gap-2 text-[#8B949E]">
