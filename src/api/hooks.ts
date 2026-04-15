@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
+import { useToast } from '../stores/toast.store';
 import {
     createBulkLinks,
     deleteSimpleLink,
@@ -9,22 +10,21 @@ import {
     getLinksByChainId,
     getSpace,
     login,
+    register,
     updateSimpleLink,
 } from './services';
 import { decodeJwt } from '../utils/jwt';
 import type {
     Space,
     Chain,
-    CreateBulkLinksRequest,
-    DeleteSimpleLinkParams,
     LinkItem,
-    UpdateSimpleLinkParams,
 } from '../types/space';
 
 export const useLogin = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
     const setUser = useUserStore((state) => state.setUser);
     const navigate = useNavigate();
+    const toast = useToast();
 
     return useMutation({
         mutationFn: login,
@@ -32,7 +32,21 @@ export const useLogin = () => {
             setAuth(result.token);
             const { userId, email } = decodeJwt(result.token);
             setUser(userId, email);
+            toast.success('Signed in successfully');
             navigate('/home');
+        },
+    });
+};
+
+export const useRegister = () => {
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: register,
+        onSuccess: () => {
+            toast.success('Account created successfully');
+            navigate('/');
         },
     });
 };
@@ -62,10 +76,12 @@ export const useLinksByChainId = (spaceId?: string, chainId?: string) => {
 
 export const useCreateBulkLinks = () => {
     const queryClient = useQueryClient();
+    const toast = useToast();
 
     return useMutation({
-        mutationFn: (request: CreateBulkLinksRequest) => createBulkLinks(request),
+        mutationFn: createBulkLinks,
         onSuccess: (_data, request) => {
+            toast.success('Links created successfully');
             queryClient.invalidateQueries({ queryKey: ['links', request.chainId] });
         },
     });
@@ -73,10 +89,12 @@ export const useCreateBulkLinks = () => {
 
 export const useUpdateSimpleLink = () => {
     const queryClient = useQueryClient();
+    const toast = useToast();
 
     return useMutation({
-        mutationFn: (params: UpdateSimpleLinkParams) => updateSimpleLink(params),
+        mutationFn: updateSimpleLink,
         onSuccess: (_data, { body }) => {
+            toast.success('Link updated successfully');
             queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
         },
     });
@@ -84,10 +102,12 @@ export const useUpdateSimpleLink = () => {
 
 export const useDeleteSimpleLink = () => {
     const queryClient = useQueryClient();
+    const toast = useToast();
 
     return useMutation({
-        mutationFn: (params: DeleteSimpleLinkParams) => deleteSimpleLink(params),
+        mutationFn: deleteSimpleLink,
         onSuccess: (_data, { body }) => {
+            toast.success('Link deleted successfully');
             queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
         },
     });

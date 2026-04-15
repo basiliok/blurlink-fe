@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GitHubIcon } from '../assets/icons/GitHubIcon';
 import { useLogin } from '../api';
 
@@ -61,6 +62,13 @@ export const Login = () => {
                     >
                         {isPending ? 'Signing in...' : 'Sign in'}
                     </button>
+
+                    <p className="text-secondary-text text-size-sm text-center">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="text-primary-text hover:underline">
+                            Sign up
+                        </Link>
+                    </p>
                 </form>
             </div>
             <footer className="text-secondary-text text-size-sm flex justify-center pb-4">

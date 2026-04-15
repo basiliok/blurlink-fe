@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home, Login, NotFound } from './pages';
+import { Home, Login, NotFound, Register } from './pages';
 import { AuthGuard, GuestGuard } from './guards';
 import { ToastContainer } from './components';
 
@@ -10,6 +10,7 @@ export const App = () => {
             <Routes>
                 <Route element={<GuestGuard />}>
                     <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
 
                 <Route element={<AuthGuard />}>

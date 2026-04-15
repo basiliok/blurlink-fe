@@ -16,6 +16,18 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
     const { data: links, isLoading } = useLinksByChainId(spaceId, chain.id);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
+    const loadingMessage = () => (
+        <div className="rounded-[0.375rem] bg-[#1E252D] p-2">
+            <p className="text-center text-sm text-gray-400">Loading links...</p>
+        </div>
+    );
+
+    const emptyMessage = () => (
+        <div className="rounded-[0.375rem] bg-[#1E252D] p-2">
+            <p className="text-center text-sm text-gray-400">No links yet. Start by creating one!</p>
+        </div>
+    );
+
     return (
         <>
             <div className="flex flex-col overflow-hidden">
@@ -46,21 +58,21 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                     </div>
                 </div>
 
-                <div className="auto-grid rounded-[0.375rem] bg-[#1E252D] p-2">
-                    {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
-                    {/* <MultiLinkCard /> */}
-                    {isLoading ? (
-                        <p className="text-sm text-gray-400">Loading links...</p>
-                    ) : (
-                        links &&
-                        links.length > 0 &&
-                        links.map((link) => {
+                {isLoading ? (
+                    loadingMessage()
+                ) : links && links.length > 0 ? (
+                    <div className="auto-grid rounded-[0.375rem] bg-[#1E252D] p-2">
+                        {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
+                        {/* <MultiLinkCard /> */}
+                        {links.map((link) => {
                             if (link.type === 'simple') {
                                 return <SimpleLinkCard key={link.id} link={link} />;
                             }
-                        })
-                    )}
-                </div>
+                        })}
+                    </div>
+                ) : (
+                    emptyMessage()
+                )}
             </div>
 
             <CreateLinkModal

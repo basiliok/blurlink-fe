@@ -7,13 +7,20 @@ import type {
     DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
+    RegisterRequest,
     SimpleLink,
     Space,
     UpdateSimpleLinkParams,
+    UserWithoutPassword,
 } from '../types';
 
 export const login = async (credentials: LoginRequest): Promise<any> => {
     const { data } = await api.post<ApiResponse>('/sign-in', credentials);
+    return data.result;
+};
+
+export const register = async (request: RegisterRequest): Promise<UserWithoutPassword> => {
+    const { data } = await api.post<ApiResponse>('/user', request);
     return data.result;
 };
 
