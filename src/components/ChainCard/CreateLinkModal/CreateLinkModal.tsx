@@ -6,9 +6,11 @@ import { useCreateBulkLinks } from '../../../api';
 import { WarningCircleIcon } from '../../../assets/icons';
 import { LinkRow } from './LinkRow';
 import type { BulkSimpleLinkItem } from '../../../types';
+import { useDevice } from '../../../hooks';
 
 export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }: CreateLinkModalProps) => {
     const [linkSlots, setLinkSlots] = useState<LinkSlots>([null, null, null, null]);
+    const isMobile = useDevice() === 'mobile';
 
     const { mutate: createBulkLinks, isPending } = useCreateBulkLinks();
 
@@ -75,7 +77,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
     return (
         <Modal customTitle={titleContent} isOpen={isOpen} onClose={handleClose}>
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                     <div className="flex w-full flex-row gap-2">
                         <div className="flex w-[calc(100%-2.5rem)]">
                             <div className="flex-5">
@@ -96,11 +98,15 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
                     <LinkRow index={3} onLinkRowChange={onLinkRowChange} />
                 </div>
 
-                <div className="flex justify-between border-t border-[#3d444d] pt-4">
-                    <div className="text-size-1 flex items-center gap-2 text-[#858b92]">
-                        <WarningCircleIcon size="1.25rem" className="rotate-180" />
-                        <span>Only valid rows will be created.</span>
-                    </div>
+                <div
+                    className={`flex items-center ${isMobile ? 'justify-end' : 'justify-between'} border-t border-[#3d444d] pt-4`}
+                >
+                    {!isMobile && (
+                        <div className="text-size-1 flex items-center gap-2 text-[#858b92]">
+                            <WarningCircleIcon size="1.25rem" className="rotate-180" />
+                            <span>Only valid rows will be created.</span>
+                        </div>
+                    )}
 
                     <div className="flex gap-2">
                         <button

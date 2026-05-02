@@ -6,10 +6,10 @@ import { ChainCard, GenericIcon, Line, Loading } from '../components';
 import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
 import { FileTextIcon, SignOutIcon } from '../assets/icons';
-import { useIsDesktop } from '../hooks';
+import { useDevice } from '../hooks';
 
 export const Home = () => {
-    const isDesktop = useIsDesktop();
+    const isDesktop = useDevice() === 'desktop';
     const email = useUserStore((state) => state.email);
     const clearUser = useUserStore((state) => state.clearUser);
     const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -62,7 +62,9 @@ export const Home = () => {
 
     return (
         <div className="h-full w-full">
-            <header className={`border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] py-3 text-[#D1D7E0] ${isDesktop ? 'px-12' : 'px-6'}`}>
+            <header
+                className={`border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] py-3 text-[#D1D7E0] ${isDesktop ? 'px-12' : 'px-6'}`}
+            >
                 <div className="flex flex-row items-center gap-4">
                     <ListIcon />
                     <h1 className="text-2xl font-bold">{space.name}</h1>

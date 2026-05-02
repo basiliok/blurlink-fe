@@ -1,1 +1,2 @@
-export { useIsDesktop } from './useIsDesktop';
+export { useDevice } from './useDevice';
+export type { Device } from './useDevice';

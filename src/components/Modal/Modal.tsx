@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom';
 import { XIcon } from '../../assets/icons';
 import type { ModalProps } from './Modal.types';
-import { useIsDesktop } from '../../hooks';
+import { useDevice } from '../../hooks';
 
 export const Modal = ({ title, customTitle, isOpen, onClose, children, maxWidth = 'max-w-160' }: ModalProps) => {
-    const isDesktop = useIsDesktop();
+    const isMobile = useDevice() === 'mobile';
 
     if (!isOpen) return null;
 
     return ReactDOM.createPortal(
         <div
-            className={`fixed inset-0 z-50 flex justify-center bg-black/60 ${isDesktop ? 'items-center' : 'items-end'}`}
+            className={`fixed inset-0 z-50 flex justify-center bg-black/60 ${isMobile ? 'items-end' : 'items-center'}`}
             onClick={onClose}
         >
             <div
