@@ -7,14 +7,14 @@ import { useDeleteSimpleLink, useUpdateSimpleLink } from '../../../api';
 import type { EditLinkModalProps } from './EditLinkModal.types';
 
 export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => {
-    const [title, setTitle] = useState<string>(link.title);
+    const [title, setTitle] = useState<string>(link.name);
     const [url, setUrl] = useState<string>(link.url);
     const { mutate: updateSimpleLink, isPending: isUpdating } = useUpdateSimpleLink();
     const { mutate: deleteSimpleLink, isPending: isDeleting } = useDeleteSimpleLink();
     const isPending = isUpdating || isDeleting;
 
     const clearForm = () => {
-        setTitle(link.title);
+        setTitle(link.name);
         setUrl(link.url);
     };
 
@@ -44,7 +44,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                 linkId: link.id,
                 body: {
                     chainId: link.chainId,
-                    title: title.trim(),
+                    name: title.trim(),
                     url: url.trim(),
                     note: link.note,
                 },
@@ -58,12 +58,12 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
     };
 
     return (
-        <Modal title={`Edit - ${link.title}`} isOpen={isOpen} onClose={handleClose}>
+        <Modal title={`Edit - ${link.name}`} isOpen={isOpen} onClose={handleClose}>
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
                     <input
                         type="text"
-                        placeholder="Title"
+                        placeholder="Name"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         // biome-ignore lint/a11y/noAutofocus: focus moves to first input when modal opens, per WAI-ARIA dialog pattern

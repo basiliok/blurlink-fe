@@ -10,3 +10,7 @@ export { SpinnerGapIcon } from './SpinnerGapIcon';
 export { SignInIcon } from './SignInIcon';
 export { SignOutIcon } from './SignOutIcon';
 export { FileTextIcon } from './FileTextIcon';
+export { WarningCircleIcon } from './WarningCircleIcon';
+export { CheckCircleIcon } from './CheckCircleIcon';
+export { XCircleIcon } from './XCircleIcon';
+export { CircleIcon } from './CircleIcon';

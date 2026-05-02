@@ -74,14 +74,15 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                     emptyMessage()
                 )}
             </div>
-
-            <CreateLinkModal
-                isOpen={isCreateModalOpen}
-                onClose={() => setIsCreateModalOpen(false)}
-                chainName={chain.chainName}
-                spaceId={spaceId}
-                chainId={chain.id}
-            />
+            {isCreateModalOpen && (
+                <CreateLinkModal
+                    isOpen={isCreateModalOpen}
+                    onClose={() => setIsCreateModalOpen(false)}
+                    chainName={chain.chainName}
+                    spaceId={spaceId}
+                    chainId={chain.id}
+                />
+            )}
         </>
     );
 };

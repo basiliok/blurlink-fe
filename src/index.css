@@ -16,8 +16,11 @@
     --radius-md: 0.375rem; /* 6px */
 
     /** font sizes **/
-    --text-size-sm: 0.875rem; /* 14px */
-    --text-size-lg: 1.25rem; /* 20px */
+    --text-size-1: 0.75rem;   /* 12px */
+    --text-size-2: 0.875rem;  /* 14px */
+    --text-size-3: 1rem;      /* 16px */
+    --text-size-4: 1.125rem;  /* 18px */
+    --text-size-5: 1.25rem;   /* 20px */
 }
 
 /*========= <html> =========*/

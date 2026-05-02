@@ -32,7 +32,7 @@ export interface SimpleLink {
     spaceId: string;
     chainId: string;
     type: 'simple';
-    title: string;
+    name: string;
     url: string;
     note: string;
     createdAt: string;
@@ -43,7 +43,7 @@ export interface SimpleLink {
  * Bulk Simple Link Creation
  */
 export interface BulkSimpleLinkItem {
-    title: string;
+    name: string;
     url: string;
 }
 
@@ -60,7 +60,7 @@ export interface BulkSimpleLinksResponse {
 
 export interface UpdateSimpleLinkRequest {
     chainId: string;
-    title: string;
+    name: string;
     url: string;
     note: string;
 }
@@ -83,7 +83,7 @@ export interface DeleteSimpleLinkParams {
  * MultiLink
  */
 export interface MiniLinkItem {
-    label: string;
+    name: string;
     url: string;
 }
 
@@ -93,7 +93,7 @@ export interface MultiLink {
     spaceId: string;
     chainId: string;
     type: 'multi';
-    title: string;
+    name: string;
     note: string;
     minilinks: MiniLinkItem[];
     createdAt: string;

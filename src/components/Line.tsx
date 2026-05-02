@@ -1,7 +1,12 @@
 interface LineProps {
-    color?: string;
+    borderColorClassName?: string;
+    orientation?: 'horizontal' | 'vertical';
 }
 
-export const Line = ({ color = 'border-input-border' }: LineProps) => {
-    return <div className={`${color} w-full border-b`} />;
+export const Line = ({
+    borderColorClassName = 'border-input-border',
+    orientation = 'horizontal',
+}: LineProps) => {
+    const sizeAndBorder = orientation === 'vertical' ? 'h-full border-r' : 'w-full border-b';
+    return <div className={`${borderColorClassName} ${sizeAndBorder}`} />;
 };

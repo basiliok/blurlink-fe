@@ -1,85 +1,125 @@
 import { useState } from 'react';
 import { Modal } from '../../Modal/Modal';
-import { Line } from '../../Line';
-import type { CreateLinkModalProps } from './CreateLinkModal.types';
+import type { CreateLinkModalProps, LinkRowStatus, LinkSlots } from './CreateLinkModal.types';
 import { Loading } from '../../Loading/Loading';
 import { useCreateBulkLinks } from '../../../api';
+import { WarningCircleIcon } from '../../../assets/icons';
+import { LinkRow } from './LinkRow';
+import type { BulkSimpleLinkItem } from '../../../types';
 
 export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }: CreateLinkModalProps) => {
-    const [title, setTitle] = useState<string>('');
-    const [url, setUrl] = useState<string>('');
+    const [linkSlots, setLinkSlots] = useState<LinkSlots>([null, null, null, null]);
+
     const { mutate: createBulkLinks, isPending } = useCreateBulkLinks();
 
-    const clearForm = () => {
-        setTitle('');
-        setUrl('');
+    const onLinkRowChange = (
+        index: number,
+        { link, status }: { link: BulkSimpleLinkItem; status: LinkRowStatus },
+    ): void => {
+        if (status === 'valid') {
+            setLinkSlots((prev) => {
+                const updatedLinks: LinkSlots = [...prev];
+                updatedLinks[index] = link;
+                return updatedLinks;
+            });
+        } else {
+            setLinkSlots((prev) => {
+                const updatedLinks: LinkSlots = [...prev];
+                updatedLinks[index] = null;
+                return updatedLinks;
+            });
+        }
     };
+
+    const validLinks: BulkSimpleLinkItem[] = linkSlots.filter((link) => link !== null);
+    const validLinksCount = validLinks.length;
 
     const handleClose = () => {
         if (isPending) return;
-        clearForm();
         onClose();
     };
 
     const handleSave = () => {
-        const links = [{ title: title.trim(), url: url.trim() }];
+        if (validLinksCount === 0) return;
 
         createBulkLinks(
             {
                 spaceId,
                 chainId,
-                links,
+                links: validLinks,
             },
             {
                 onSuccess: () => {
-                    clearForm();
                     onClose();
                 },
             },
         );
     };
 
+    const getCreateButtonLabel = (count: number): string => {
+        if (count <= 1) {
+            return 'Create links';
+        } else {
+            return `Create ${count} links`;
+        }
+    };
+
+    const titleContent = (
+        <div className="flex flex-row items-center gap-2">
+            <p className="text-sm font-[500] text-[#D1D7E0]">NEW LINKS</p>
+            <span className="text-sm text-[#6E7681]">·</span>
+            <span className="text-sm text-[#6E7681]">{chainName.toUpperCase()}</span>
+        </div>
+    );
+
     return (
-        <Modal title={`New Link - ${chainName}`} isOpen={isOpen} onClose={handleClose}>
+        <Modal customTitle={titleContent} isOpen={isOpen} onClose={handleClose}>
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        // biome-ignore lint/a11y/noAutofocus: focus moves to first input when modal opens, per WAI-ARIA dialog pattern
-                        autoFocus
-                        className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
-                    />
-                    <Line />
-                    <input
-                        type="text"
-                        placeholder="https://example.com"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        className="w-full px-3 py-2 text-sm text-[#9198A1] focus:outline-none"
-                    />
+                <div className="flex flex-col gap-3">
+                    <div className="flex w-full flex-row gap-2">
+                        <div className="flex w-[calc(100%-2.5rem)]">
+                            <div className="flex-5">
+                                <span className="text-size-2 ps-3 text-[#9198A1]">Name</span>
+                            </div>
+                            <div className="w-1"></div>
+                            <div className="flex-6">
+                                <span className="text-size-2 ps-3 text-[#9198A1]">URL</span>
+                            </div>
+                        </div>
+                        <div className="flex w-8 justify-center">
+                            <span className="text-size-2 text-[#9198A1]">Status</span>
+                        </div>
+                    </div>
+                    <LinkRow index={0} onLinkRowChange={onLinkRowChange} />
+                    <LinkRow index={1} onLinkRowChange={onLinkRowChange} />
+                    <LinkRow index={2} onLinkRowChange={onLinkRowChange} />
+                    <LinkRow index={3} onLinkRowChange={onLinkRowChange} />
                 </div>
 
-                <div className="flex justify-end gap-2 border-t border-[#3d444d] pt-4">
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        disabled={isPending}
-                        className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleSave}
-                        disabled={isPending}
-                        className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] active:bg-[#1a7f2e] disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {isPending && <Loading size={'1rem'} />}
-                        {isPending ? 'Creating...' : 'Create link'}
-                    </button>
+                <div className="flex justify-between border-t border-[#3d444d] pt-4">
+                    <div className="text-size-1 flex items-center gap-2 text-[#858b92]">
+                        <WarningCircleIcon size="1.25rem" className="rotate-180" />
+                        <span>Only valid rows will be created.</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                        <button
+                            type="button"
+                            onClick={handleClose}
+                            disabled={isPending}
+                            className="cursor-pointer rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSave}
+                            disabled={isPending || validLinksCount === 0}
+                            className="flex cursor-pointer items-center rounded-[0.375rem] bg-[#238636] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#29903b] active:bg-[#1a7f2e] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {isPending ? <Loading size={'1rem'} /> : getCreateButtonLabel(validLinksCount)}
+                        </button>
+                    </div>
                 </div>
             </div>
         </Modal>
