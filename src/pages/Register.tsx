@@ -117,9 +117,7 @@ export const Register = () => {
             </div>
             <footer className="flex flex-col items-center gap-3 pb-4">
                 <p className="text-secondary-text text-size-2 max-w-80 text-center">
-                    This project is still under development. If you're interested in trying it out, drop me a line at{' '}
-                    <span className="text-primary-text">paledot01@gmail.com</span> and I'll send you an invite code to
-                    explore what's built so far.
+                    This project is still in development and, for now, is intended for personal use only.
                 </p>
             </footer>
         </div>
