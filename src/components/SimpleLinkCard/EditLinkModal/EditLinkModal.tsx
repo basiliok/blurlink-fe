@@ -47,6 +47,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                     name: title.trim(),
                     url: url.trim(),
                     note: link.note,
+                    rank: link.rank,
                 },
             },
             {
@@ -66,7 +67,6 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                         placeholder="Name"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        // biome-ignore lint/a11y/noAutofocus: focus moves to first input when modal opens, per WAI-ARIA dialog pattern
                         autoFocus
                         className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
                     />

@@ -100,6 +100,21 @@ export const useUpdateSimpleLink = () => {
     });
 };
 
+export const useReorderSimpleLink = () => {
+    const queryClient = useQueryClient();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: updateSimpleLink,
+        onError: () => {
+            toast.error('Failed to reorder link');
+        },
+        onSettled: (_data, _err, { body }) => {
+            queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
+        },
+    });
+};
+
 export const useDeleteSimpleLink = () => {
     const queryClient = useQueryClient();
     const toast = useToast();

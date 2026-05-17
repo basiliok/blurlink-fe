@@ -5,19 +5,17 @@ import { Loading } from '../../Loading/Loading';
 import { useCreateBulkLinks } from '../../../api';
 import { WarningCircleIcon } from '../../../assets/icons';
 import { LinkRow } from './LinkRow';
-import type { BulkSimpleLinkItem } from '../../../types';
+import type { LinkFormItem, BulkSimpleLinkItem } from '../../../types';
 import { useDevice } from '../../../hooks';
+import { rankBulkAfter } from '../../../utils/linkRank';
 
-export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }: CreateLinkModalProps) => {
+export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId, lastRank }: CreateLinkModalProps) => {
     const [linkSlots, setLinkSlots] = useState<LinkSlots>([null, null, null, null]);
     const isMobile = useDevice() === 'mobile';
 
     const { mutate: createBulkLinks, isPending } = useCreateBulkLinks();
 
-    const onLinkRowChange = (
-        index: number,
-        { link, status }: { link: BulkSimpleLinkItem; status: LinkRowStatus },
-    ): void => {
+    const onLinkRowChange = (index: number, { link, status }: { link: LinkFormItem; status: LinkRowStatus }): void => {
         if (status === 'valid') {
             setLinkSlots((prev) => {
                 const updatedLinks: LinkSlots = [...prev];
@@ -33,7 +31,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
         }
     };
 
-    const validLinks: BulkSimpleLinkItem[] = linkSlots.filter((link) => link !== null);
+    const validLinks: LinkFormItem[] = linkSlots.filter((link) => link !== null);
     const validLinksCount = validLinks.length;
 
     const handleClose = () => {
@@ -44,11 +42,17 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId }
     const handleSave = () => {
         if (validLinksCount === 0) return;
 
+        const ranks = rankBulkAfter(lastRank, validLinksCount);
+        const linksWithRank: BulkSimpleLinkItem[] = validLinks.map((link, i) => ({
+            ...link,
+            rank: ranks[i],
+        }));
+
         createBulkLinks(
             {
                 spaceId,
                 chainId,
-                links: validLinks,
+                links: linksWithRank,
             },
             {
                 onSuccess: () => {

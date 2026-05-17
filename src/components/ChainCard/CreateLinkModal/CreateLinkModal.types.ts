@@ -1,4 +1,4 @@
-import type { BulkSimpleLinkItem } from '../../../types';
+import type { LinkFormItem } from '../../../types';
 
 export interface CreateLinkModalProps {
     isOpen: boolean;
@@ -6,13 +6,14 @@ export interface CreateLinkModalProps {
     chainName: string;
     spaceId: string;
     chainId: string;
+    lastRank: string | null;
 }
 
 export type LinkSlots = [
-    BulkSimpleLinkItem | null,
-    BulkSimpleLinkItem | null,
-    BulkSimpleLinkItem | null,
-    BulkSimpleLinkItem | null,
+    LinkFormItem | null,
+    LinkFormItem | null,
+    LinkFormItem | null,
+    LinkFormItem | null,
 ];
 
 export type LinkRowStatus = 'empty' | 'valid' | 'invalid';
@@ -22,7 +23,7 @@ export interface LinkRowProps {
     onLinkRowChange: (
         index: number,
         payload: {
-            link: BulkSimpleLinkItem;
+            link: LinkFormItem;
             status: LinkRowStatus;
         },
     ) => void;

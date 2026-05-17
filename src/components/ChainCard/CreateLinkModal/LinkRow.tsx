@@ -2,7 +2,7 @@ import { Line } from '../../Line';
 import { CheckCircleIcon, CircleIcon, XCircleIcon } from '../../../assets/icons';
 import { bulkSimpleLinkItemSchema } from './CreateLinkModal.schema';
 import { useState, type ReactElement } from 'react';
-import type { BulkSimpleLinkItem } from '../../../types';
+import type { LinkFormItem } from '../../../types';
 import type { LinkRowProps, LinkRowStatus } from './CreateLinkModal.types';
 
 const borderByStatus: Record<LinkRowStatus, string> = {
@@ -18,15 +18,15 @@ const iconByStatus: Record<LinkRowStatus, ReactElement> = {
 };
 
 export const LinkRow = ({ index, onLinkRowChange }: LinkRowProps) => {
-    const [link, setLink] = useState<BulkSimpleLinkItem>({ name: '', url: '' });
+    const [link, setLink] = useState<LinkFormItem>({ name: '', url: '' });
     const [status, setStatus] = useState<LinkRowStatus>('empty');
 
-    const normalizeLinkForm = (link: BulkSimpleLinkItem): BulkSimpleLinkItem => ({
+    const normalizeLinkForm = (link: LinkFormItem): LinkFormItem => ({
         name: link.name.trim(),
         url: link.url.trim(),
     });
 
-    const validateLink = (link: BulkSimpleLinkItem): LinkRowStatus => {
+    const validateLink = (link: LinkFormItem): LinkRowStatus => {
         if (!link.name && !link.url) return 'empty';
         return bulkSimpleLinkItemSchema.safeParse(link).success ? 'valid' : 'invalid';
     };

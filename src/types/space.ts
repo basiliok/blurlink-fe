@@ -35,6 +35,7 @@ export interface SimpleLink {
     name: string;
     url: string;
     note: string;
+    rank: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -42,9 +43,15 @@ export interface SimpleLink {
 /**
  * Bulk Simple Link Creation
  */
+export interface LinkFormItem {
+    name: string;
+    url: string;
+}
+
 export interface BulkSimpleLinkItem {
     name: string;
     url: string;
+    rank: string;
 }
 
 export interface CreateBulkLinksRequest {
@@ -63,6 +70,7 @@ export interface UpdateSimpleLinkRequest {
     name: string;
     url: string;
     note: string;
+    rank: string;
 }
 
 export interface UpdateSimpleLinkParams {
@@ -95,6 +103,7 @@ export interface MultiLink {
     type: 'multi';
     name: string;
     note: string;
+    rank: string;
     minilinks: MiniLinkItem[];
     createdAt: string;
     updatedAt: string;

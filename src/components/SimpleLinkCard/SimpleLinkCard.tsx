@@ -7,14 +7,16 @@ import { EditLinkModal } from './EditLinkModal/EditLinkModal';
 
 interface SimpleLinkProps {
     link: SimpleLink;
+    isFaded?: boolean;
 }
 
-export const SimpleLinkCard = ({ link }: SimpleLinkProps) => {
+export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const opacityClass = isFaded ? 'opacity-60' : '';
 
     return (
         <>
-            <div className="border-input-border flex flex-row rounded-[0.375rem] border">
+            <div className={`border-input-border flex flex-row rounded-[0.375rem] border ${opacityClass}`}>
                 <a
                     href={link.url}
                     target="_blank"

@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 import type { Chain } from '../../types';
 import { useLinksByChainId } from '../../api';
 import { SimpleLinkCard } from '../SimpleLinkCard/SimpleLinkCard';
 import './ChainCard.css';
 import { PlusIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
-//import { MultiLinkCard } from '../MultiLinkCard';
+import { DraggableLinkCard } from './DraggableLinkCard';
+import { useChainLinkReorder } from './useChainLinkReorder';
 
 interface ChainCardProps {
     chain: Chain;
@@ -15,6 +17,11 @@ interface ChainCardProps {
 export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
     const { data: links, isLoading } = useLinksByChainId(spaceId, chain.id);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+    const { sortedSimples, dragTriggers, draggedLink, getDropIndicator, handlers } = useChainLinkReorder(
+        chain.id,
+        links,
+    );
 
     const loadingMessage = () => (
         <div className="rounded-[0.375rem] bg-[#1E252D] p-2">
@@ -60,16 +67,19 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
 
                 {isLoading ? (
                     loadingMessage()
-                ) : links && links.length > 0 ? (
-                    <div className="auto-grid rounded-[0.375rem] bg-[#1E252D] p-2">
-                        {/* TO DO: modificar esto a una version mas legible, cuando se complete MultiLinkCard */}
-                        {/* <MultiLinkCard /> */}
-                        {links.map((link) => {
-                            if (link.type === 'simple') {
-                                return <SimpleLinkCard key={link.id} link={link} />;
-                            }
-                        })}
-                    </div>
+                ) : sortedSimples.length > 0 ? (
+                    <DndContext sensors={dragTriggers} {...handlers}>
+                        <div className="auto-grid rounded-[0.375rem] bg-[#1E252D] p-2">
+                            {sortedSimples.map((link) => (
+                                <DraggableLinkCard
+                                    key={link.id}
+                                    link={link}
+                                    dropIndicator={getDropIndicator(link.id)}
+                                />
+                            ))}
+                        </div>
+                        <DragOverlay>{draggedLink && <SimpleLinkCard link={draggedLink} isFaded={true} />}</DragOverlay>
+                    </DndContext>
                 ) : (
                     emptyMessage()
                 )}
@@ -81,6 +91,7 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                     chainName={chain.chainName}
                     spaceId={spaceId}
                     chainId={chain.id}
+                    lastRank={sortedSimples[sortedSimples.length - 1]?.rank ?? null}
                 />
             )}
         </>
