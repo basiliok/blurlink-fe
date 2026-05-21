@@ -1,4 +1,4 @@
-interface AvatarProps {
+interface GenericIconProps {
     name: string | null;
     size?: 'small' | 'small2' | 'medium';
     radius?: 'round' | 'small' | 'none';
@@ -17,7 +17,7 @@ const radiusClasses = {
     none: '',
 };
 
-export const GenericIcon = ({ name, size = 'medium', radius = 'small', bgTransparent = false }: AvatarProps) => {
+export const GenericIcon = ({ name, size = 'medium', radius = 'small', bgTransparent = false }: GenericIconProps) => {
     const initial = name ? name.charAt(0).toUpperCase() : '?';
     const bgClass = bgTransparent ? 'bg-[#3D444D]/60' : 'bg-[#3D444D]';
 

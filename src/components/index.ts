@@ -1,4 +1,6 @@
 export * from './GenericIcon';
+export * from './SvgIcon';
+export * from './LinkIcon';
 export * from './Line';
 export * from './Loading/Loading';
 export * from './ChainCard/ChainCard';
