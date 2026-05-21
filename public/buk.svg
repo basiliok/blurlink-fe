@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="5" fill="#5566E8"/>
+  <text x="16" y="21"
+        font-family="ui-rounded, system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-weight="600"
+        font-size="12"
+        text-anchor="middle"
+        fill="#FFFFFF">·<tspan dx="1.5">buk</tspan><tspan dx="1.5">·</tspan></text>
+</svg>
