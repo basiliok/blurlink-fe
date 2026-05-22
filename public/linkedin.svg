@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="5" fill="#145faf"/>
+  <!-- i dot -->
+  <circle cx="9.05" cy="9.1" r="1.7" fill="#F1F5F9"/>
+  <!-- i stem -->
+  <rect x="7.65" y="12.6" width="2.8" height="12" fill="#F1F5F9"/>
+  <!-- n left stem -->
+  <rect x="14.65" y="12.6" width="2.8" height="12" fill="#F1F5F9"/>
+  <!-- n flat-topped arch / cap -->
+  <rect x="14.65" y="13.6" width="10" height="2.8" fill="#F1F5F9"/>
+  <!-- n right stem -->
+  <rect x="21.85" y="13.6" width="2.8" height="11" fill="#F1F5F9"/>
+</svg>

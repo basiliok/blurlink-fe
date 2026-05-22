@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="16" cy="16" r="15"/>
+    </clipPath>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="#2563EB"/>
+  <text x="15" y="33"
+        font-family="ui-rounded, system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-weight="700"
+        font-size="34"
+        text-anchor="middle"
+        fill="#FFFFFF"
+        clip-path="url(#circleClip)">f</text>
+</svg>
