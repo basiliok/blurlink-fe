@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home, Login, NotFound, Register } from './pages';
 import { AuthGuard, GuestGuard } from './guards';
-import { ToastContainer } from './components';
+import { DevTools, ToastContainer } from './components';
 
 export const App = () => {
     return (
         <BrowserRouter>
             <ToastContainer />
+            <DevTools />
             <Routes>
                 <Route element={<GuestGuard />}>
                     <Route path="/" element={<Login />} />
