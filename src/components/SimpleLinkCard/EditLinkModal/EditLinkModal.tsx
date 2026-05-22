@@ -48,6 +48,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                     url: url.trim(),
                     note: link.note,
                     rank: link.rank,
+                    icon: link.icon,
                 },
             },
             {

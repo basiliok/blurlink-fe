@@ -119,6 +119,7 @@ export const useChainLinkReorder = (chainId: string, links: LinkItem[] | undefin
                     url: activeLink.url,
                     note: activeLink.note,
                     rank: newRank,
+                    icon: activeLink.icon,
                 },
             },
             {

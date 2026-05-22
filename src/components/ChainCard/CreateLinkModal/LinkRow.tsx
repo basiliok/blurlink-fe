@@ -18,12 +18,13 @@ const iconByStatus: Record<LinkRowStatus, ReactElement> = {
 };
 
 export const LinkRow = ({ index, onLinkRowChange }: LinkRowProps) => {
-    const [link, setLink] = useState<LinkFormItem>({ name: '', url: '' });
+    const [link, setLink] = useState<LinkFormItem>({ name: '', url: '', icon: '' });
     const [status, setStatus] = useState<LinkRowStatus>('empty');
 
     const normalizeLinkForm = (link: LinkFormItem): LinkFormItem => ({
         name: link.name.trim(),
         url: link.url.trim(),
+        icon: link.icon,
     });
 
     const validateLink = (link: LinkFormItem): LinkRowStatus => {
