@@ -1,4 +1,4 @@
-export const AVAILABLE_SVGS = ['buk', 'figma', 'github', 'jira', 'outlook', 'peluchin'] as const;
+export const AVAILABLE_SVGS = ['buk', 'figma', 'github', 'jira', 'outlook', 'peluchin', 'youtube'] as const;
 
 export type AvailableSvg = (typeof AVAILABLE_SVGS)[number];
 
