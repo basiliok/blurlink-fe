@@ -17,6 +17,7 @@ export const Modal = ({ title, customTitle, isOpen, onClose, children, maxWidth 
                 className={`relative w-full min-w-90 ${maxWidth} mx-3 my-20 rounded-[0.375rem] border border-[#3d444d] bg-[#161b22] shadow-lg`}
                 style={{ animation: 'slide-in-bottom 0.2s ease-out both' }}
                 onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
             >
                 <div className="flex items-center justify-between border-b border-[#3d444d] px-4 py-3">
                     {customTitle
