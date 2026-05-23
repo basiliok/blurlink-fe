@@ -1,4 +1,28 @@
-export const AVAILABLE_SVGS = ['buk', 'figma', 'github', 'jira', 'outlook', 'peluchin', 'youtube'] as const;
+export const AVAILABLE_SVGS = [
+    'azure',
+    'buk',
+    'claude',
+    'drive',
+    'excel',
+    'facebook',
+    'figma',
+    'github',
+    'gmail',
+    'google-analytics',
+    'jira',
+    'linkedin',
+    'netflix',
+    'onedrive',
+    'outlook',
+    'peluchin',
+    'pinterest',
+    'power-point',
+    'slack',
+    'telegram',
+    'whatsapp',
+    'x',
+    'youtube',
+] as const;
 
 export type AvailableSvg = (typeof AVAILABLE_SVGS)[number];
 

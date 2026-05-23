@@ -14,3 +14,4 @@ export { WarningCircleIcon } from './WarningCircleIcon';
 export { CheckCircleIcon } from './CheckCircleIcon';
 export { XCircleIcon } from './XCircleIcon';
 export { CircleIcon } from './CircleIcon';
+export { CaretDownIcon } from './CaretDownIcon';

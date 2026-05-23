@@ -5,7 +5,7 @@ import { SvgIcon } from './SvgIcon';
 interface LinkIconProps {
     name: string | null;
     iconName?: string;
-    size?: 'small' | 'small2' | 'medium';
+    size?: 'small' | 'small2' | 'medium' | 'large';
     radius?: 'round' | 'small' | 'none';
     bgTransparent?: boolean;
 }
@@ -18,7 +18,7 @@ export const LinkIcon = ({
     bgTransparent = false,
 }: LinkIconProps) => {
     if (iconName && isAvailableSvg(iconName)) {
-        return <SvgIcon icon={iconName} />;
+        return <SvgIcon icon={iconName} size={size} />;
     }
 
     return <GenericIcon name={name} size={size} radius={radius} bgTransparent={bgTransparent} />;

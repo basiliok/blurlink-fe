@@ -4,18 +4,24 @@ import { Line } from '../../Line';
 import { Loading } from '../../Loading/Loading';
 import { TrashIcon } from '../../../assets/icons';
 import { useDeleteSimpleLink, useUpdateSimpleLink } from '../../../api';
+import { LinkIcon } from '../../LinkIcon';
+import { SvgIcon } from '../../SvgIcon';
+import { AVAILABLE_SVGS } from '../../../constants/svgs';
 import type { EditLinkModalProps } from './EditLinkModal.types';
 
 export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => {
-    const [title, setTitle] = useState<string>(link.name);
+    const [name, setName] = useState<string>(link.name);
     const [url, setUrl] = useState<string>(link.url);
+    const [icon, setIcon] = useState<string>(link.icon);
+
     const { mutate: updateSimpleLink, isPending: isUpdating } = useUpdateSimpleLink();
     const { mutate: deleteSimpleLink, isPending: isDeleting } = useDeleteSimpleLink();
     const isPending = isUpdating || isDeleting;
 
     const clearForm = () => {
-        setTitle(link.name);
+        setName(link.name);
         setUrl(link.url);
+        setIcon(link.icon);
     };
 
     const handleClose = () => {
@@ -44,11 +50,11 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                 linkId: link.id,
                 body: {
                     chainId: link.chainId,
-                    name: title.trim(),
+                    name: name.trim(),
                     url: url.trim(),
                     note: link.note,
                     rank: link.rank,
-                    icon: link.icon,
+                    icon: icon,
                 },
             },
             {
@@ -62,23 +68,48 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
     return (
         <Modal title={`Edit - ${link.name}`} isOpen={isOpen} onClose={handleClose}>
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        autoFocus
-                        className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
-                    />
-                    <Line />
-                    <input
-                        type="text"
-                        placeholder="https://example.com"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        className="w-full px-3 py-2 text-sm text-[#9198A1] focus:outline-none"
-                    />
+                <div className="flex flex-row gap-2">
+                    <div className="border-input-border bg-background flex h-18.75 w-18.75 items-center justify-center rounded-md border">
+                        <LinkIcon name={name} iconName={icon} size="large" />
+                    </div>
+                    <div className="flex flex-1 flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            autoFocus
+                            className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
+                        />
+                        <Line />
+                        <input
+                            type="text"
+                            placeholder="https://example.com"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className="w-full px-3 py-2 text-sm text-[#9198A1] focus:outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="border-input-border bg-background flex flex-wrap gap-2 rounded-md border p-2">
+                    {AVAILABLE_SVGS.map((svg) => {
+                        const isSelected = icon === svg;
+                        return (
+                            <button
+                                key={svg}
+                                type="button"
+                                onClick={() => setIcon(svg)}
+                                className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border transition-colors ${
+                                    isSelected
+                                        ? 'border-[#2f81f7] bg-[#1c2128]'
+                                        : 'border-input-border hover:bg-[#1c2128]'
+                                }`}
+                            >
+                                <SvgIcon icon={svg} size="small" />
+                            </button>
+                        );
+                    })}
                 </div>
 
                 <div className="flex justify-between border-t border-[#3d444d] pt-4">

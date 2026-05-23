@@ -1,6 +1,6 @@
 interface GenericIconProps {
     name: string | null;
-    size?: 'small' | 'small2' | 'medium';
+    size?: 'small' | 'small2' | 'medium' | 'large';
     radius?: 'round' | 'small' | 'none';
     bgTransparent?: boolean;
 }
@@ -9,6 +9,7 @@ const sizeClasses = {
     small: 'h-6 w-6 text-xs', // 24px
     small2: 'h-[1.5625rem] w-[1.5625rem] text-sm', // 25px
     medium: 'h-[2.375rem] w-[2.375rem] text-sm', // 38px
+    large: 'h-12 w-12 text-lg', // 48px
 };
 
 const radiusClasses = {
