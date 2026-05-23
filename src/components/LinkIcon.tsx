@@ -17,7 +17,7 @@ export const LinkIcon = ({
     radius = 'small',
     bgTransparent = false,
 }: LinkIconProps) => {
-    if (iconName && isAvailableSvg(iconName)) {
+    if (iconName && isAvailableSvg(iconName) && iconName !== 'default') {
         return <SvgIcon icon={iconName} size={size} />;
     }
 

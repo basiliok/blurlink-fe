@@ -8,3 +8,4 @@ export * from './SimpleLinkCard/SimpleLinkCard';
 export * from './MultiLinkCard';
 export * from './Toast/ToastContainer';
 export * from './DevTools';
+export * from './Tooltip/Tooltip';
