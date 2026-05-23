@@ -28,7 +28,10 @@ export const Login = () => {
                             Email
                         </label>
                         <input
+                            id="email"
+                            name="email"
                             type="email"
+                            autoComplete="email"
                             placeholder="Email"
                             className="border-input-border w-full rounded-md border px-4 py-2"
                             value={email}
@@ -42,7 +45,10 @@ export const Login = () => {
                             Password
                         </label>
                         <input
+                            id="password"
+                            name="password"
                             type="password"
+                            autoComplete="current-password"
                             placeholder="Password"
                             className="border-input-border w-full rounded-md border px-4 py-2"
                             value={password}

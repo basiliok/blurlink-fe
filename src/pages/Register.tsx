@@ -55,7 +55,9 @@ export const Register = () => {
                         </label>
                         <input
                             id="email"
+                            name="email"
                             type="email"
+                            autoComplete="email"
                             placeholder="Email"
                             className="border-input-border w-full rounded-md border px-4 py-2"
                             value={email}
@@ -70,7 +72,9 @@ export const Register = () => {
                         </label>
                         <input
                             id="password"
+                            name="password"
                             type="password"
+                            autoComplete="new-password"
                             placeholder="Password"
                             className="border-input-border w-full rounded-md border px-4 py-2"
                             value={password}
@@ -85,7 +89,9 @@ export const Register = () => {
                         </label>
                         <input
                             id="inviteCode"
+                            name="inviteCode"
                             type="text"
+                            autoComplete="off"
                             placeholder="Invite code"
                             className="border-input-border w-full rounded-md border px-4 py-2"
                             value={inviteCode}
