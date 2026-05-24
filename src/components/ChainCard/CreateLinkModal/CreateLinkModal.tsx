@@ -10,7 +10,7 @@ import { useDevice } from '../../../hooks';
 import { rankBulkAfter } from '../../../utils/linkRank';
 
 export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId, lastRank }: CreateLinkModalProps) => {
-    const [linkSlots, setLinkSlots] = useState<LinkSlots>([null, null, null, null]);
+    const [linkSlots, setLinkSlots] = useState<LinkSlots>([null, null, null]);
     const isMobile = useDevice() === 'mobile';
 
     const { mutate: createBulkLinks, isPending } = useCreateBulkLinks();
@@ -99,7 +99,6 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId, 
                     <LinkRow index={0} onLinkRowChange={onLinkRowChange} />
                     <LinkRow index={1} onLinkRowChange={onLinkRowChange} />
                     <LinkRow index={2} onLinkRowChange={onLinkRowChange} />
-                    <LinkRow index={3} onLinkRowChange={onLinkRowChange} />
                 </div>
 
                 <div
