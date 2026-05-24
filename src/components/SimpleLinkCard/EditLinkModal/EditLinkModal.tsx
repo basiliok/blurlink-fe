@@ -5,9 +5,7 @@ import { Loading } from '../../Loading/Loading';
 import { TrashIcon } from '../../../assets/icons';
 import { useDeleteSimpleLink, useUpdateSimpleLink } from '../../../api';
 import { LinkIcon } from '../../LinkIcon';
-import { SvgIcon } from '../../SvgIcon';
-import { Tooltip } from '../../Tooltip/Tooltip';
-import { AVAILABLE_SVGS } from '../../../constants/svgs';
+import { IconPicker } from '../../IconPicker/IconPicker';
 import type { EditLinkModalProps } from './EditLinkModal.types';
 
 export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => {
@@ -93,26 +91,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                     </div>
                 </div>
 
-                <div className="border-input-border bg-background flex flex-wrap gap-2 rounded-md border p-2">
-                    {AVAILABLE_SVGS.map((svg) => {
-                        const isSelected = icon === svg;
-                        return (
-                            <Tooltip key={svg} message={svg} placement="bottom-start" size="small" offset={6}>
-                                <button
-                                    type="button"
-                                    onClick={() => setIcon(svg)}
-                                    className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border transition-colors ${
-                                        isSelected
-                                            ? 'border-[#2f81f7] bg-[#1c2128]'
-                                            : 'border-input-border hover:bg-[#1c2128]'
-                                    }`}
-                                >
-                                    <SvgIcon icon={svg} size="small" />
-                                </button>
-                            </Tooltip>
-                        );
-                    })}
-                </div>
+                <IconPicker value={icon} onChange={setIcon} />
 
                 <div className="flex justify-between border-t border-[#3d444d] pt-4">
                     <button
