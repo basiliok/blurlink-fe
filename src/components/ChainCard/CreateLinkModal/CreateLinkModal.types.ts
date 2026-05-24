@@ -9,11 +9,7 @@ export interface CreateLinkModalProps {
     lastRank: string | null;
 }
 
-export type LinkSlots = [
-    LinkFormItem | null,
-    LinkFormItem | null,
-    LinkFormItem | null,
-];
+export type LinkSlots = [LinkFormItem | null, LinkFormItem | null, LinkFormItem | null];
 
 export type LinkRowStatus = 'empty' | 'valid' | 'invalid';
 

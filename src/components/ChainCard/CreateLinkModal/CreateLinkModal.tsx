@@ -83,16 +83,19 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId, 
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="flex w-full flex-row gap-2">
-                        <div className="flex w-[calc(100%-2.5rem)]">
+                        <div className="w-14">
+                            <span className="text-size-2 ps-2 text-[#9198A1]">Icon</span>
+                        </div>
+                        <div className="flex w-[calc(100%-6.5rem)]">
                             <div className="flex-5">
-                                <span className="text-size-2 ps-3 text-[#9198A1]">Name</span>
+                                <span className="text-size-2 ps-2 text-[#9198A1]">Name</span>
                             </div>
                             <div className="w-1"></div>
                             <div className="flex-6">
-                                <span className="text-size-2 ps-3 text-[#9198A1]">URL</span>
+                                <span className="text-size-2 ps-2 text-[#9198A1]">URL</span>
                             </div>
                         </div>
-                        <div className="flex w-8 justify-center">
+                        <div className="flex w-8 items-center justify-center">
                             <span className="text-size-2 text-[#9198A1]">Status</span>
                         </div>
                     </div>
