@@ -29,6 +29,7 @@ export const AVAILABLE_SVGS = [
     'tiktok',
     'twitch',
     'whatsapp',
+    'word',
     'x',
     'youtube',
 ] as const;
