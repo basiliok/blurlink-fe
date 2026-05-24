@@ -25,6 +25,8 @@ Each file:
 
 After creating the SVGs, wire them into the preview row at the bottom of [src/pages/Home.tsx](src/pages/Home.tsx) (look for the `<div className="flex flex-wrap gap-1">` containing `<img>` tags). Add the new ones with `<img src="/<brand>-1.svg" alt="<brand>-1" />` — no className, no width/height attrs on the img.
 
+Also register the brand name in the `AVAILABLE_SVGS` array in [src/constants/svgs.ts](src/constants/svgs.ts). Keep the array in true alphabetical order (`'default'` stays pinned at the top as the fallback; every other entry sorts lexicographically). Use the bare brand slug (e.g. `'instagram'`, not `'instagram-1'`) — the constants file tracks brand identity, not variant files.
+
 ## Color rules
 
 1. **Never use the original brand hex.** Always shift the tone so it adapts to the page palette (bg `#212830`, cards `#1E252D`, accent `#3b82f6`, text `#D1D7E0`).
