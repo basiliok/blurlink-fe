@@ -19,8 +19,6 @@ export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
             <div className={`border-input-border flex flex-row rounded-[0.375rem] border ${opacityClass}`}>
                 <a
                     href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex flex-1 flex-row gap-2.5 overflow-hidden pt-2 pr-1 pb-2 pl-2 transition-colors hover:bg-[#2a333d]"
                 >
                     <LinkIcon name={link.name} iconName={link.icon} />

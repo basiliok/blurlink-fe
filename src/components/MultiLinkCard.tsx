@@ -7,8 +7,6 @@ export const MultiLinkCard = () => {
             <div className="flex flex-1 flex-col">
                 <a
                     href="https://www.youtube.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex flex-1 flex-row items-center gap-2 overflow-hidden pr-1 pl-2 transition-colors hover:bg-[#2a333d]"
                 >
                     <GenericIcon name={'FAS'} size="small" />
@@ -20,8 +18,6 @@ export const MultiLinkCard = () => {
                 </a>
                 <a
                     href="https://www.youtube.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex flex-1 flex-row items-center gap-2 overflow-hidden pr-1 pl-2 transition-colors hover:bg-[#2a333d]"
                 >
                     <GenericIcon name={'FAS'} size="small" />
@@ -33,8 +29,6 @@ export const MultiLinkCard = () => {
                 </a>
                 <a
                     href="https://www.youtube.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex flex-1 flex-row items-center gap-2 overflow-hidden pr-1 pl-2 transition-colors hover:bg-[#2a333d]"
                 >
                     <GenericIcon name={'FAS'} size="small" />
