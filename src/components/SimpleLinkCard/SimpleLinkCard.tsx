@@ -24,7 +24,7 @@ export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
                 >
                     <div className="relative">
                         <LinkIcon name={link.name} iconName={link.icon} />
-                        {link.subIcon && <SubIcon color={link.subIcon} />}
+                        <SubIcon color={link.subIcon} />
                     </div>
                     <div className="flex flex-1 flex-col overflow-hidden">
                         <span className="truncate text-[1rem] leading-[1.25rem] font-[500] text-[#D1D7E0]">

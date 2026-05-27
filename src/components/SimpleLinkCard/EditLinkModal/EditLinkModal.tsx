@@ -5,13 +5,16 @@ import { Loading } from '../../Loading/Loading';
 import { TrashIcon } from '../../../assets/icons';
 import { useDeleteSimpleLink, useUpdateSimpleLink } from '../../../api';
 import { LinkIcon } from '../../LinkIcon';
+import { SubIcon } from '../../SubIcon';
 import { IconPicker } from '../../IconPicker/IconPicker';
+import { SubIconPicker } from '../../SubIconPicker/SubIconPicker';
 import type { EditLinkModalProps } from './EditLinkModal.types';
 
 export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => {
     const [name, setName] = useState<string>(link.name);
     const [url, setUrl] = useState<string>(link.url);
     const [icon, setIcon] = useState<string>(link.icon);
+    const [subIcon, setSubIcon] = useState<string>(link.subIcon);
 
     const { mutate: updateSimpleLink, isPending: isUpdating } = useUpdateSimpleLink();
     const { mutate: deleteSimpleLink, isPending: isDeleting } = useDeleteSimpleLink();
@@ -21,6 +24,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
         setName(link.name);
         setUrl(link.url);
         setIcon(link.icon);
+        setSubIcon(link.subIcon);
     };
 
     const handleClose = () => {
@@ -54,6 +58,7 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                     note: link.note,
                     rank: link.rank,
                     icon: icon,
+                    subIcon: subIcon,
                 },
             },
             {
@@ -69,7 +74,10 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
             <div className="flex flex-col gap-4">
                 <div className="flex flex-row gap-2">
                     <div className="border-input-border bg-background flex h-18.75 w-18.75 items-center justify-center rounded-md border">
-                        <LinkIcon name={name} iconName={icon} size="large" />
+                        <div className="relative">
+                            <LinkIcon name={name} iconName={icon} size="large" />
+                            <SubIcon color={subIcon} />
+                        </div>
                     </div>
                     <div className="flex flex-1 flex-col rounded-[0.375rem] border border-[#3d444d] bg-[#0d1117]">
                         <input
@@ -77,7 +85,6 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                             placeholder="Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            autoFocus
                             className="w-full px-3 py-2 text-sm text-[#f0f6fc] focus:outline-none"
                         />
                         <Line />
@@ -92,6 +99,8 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                 </div>
 
                 <IconPicker value={icon} onChange={setIcon} />
+
+                <SubIconPicker value={subIcon} onChange={setSubIcon} />
 
                 <div className="flex justify-between border-t border-[#3d444d] pt-4">
                     <button

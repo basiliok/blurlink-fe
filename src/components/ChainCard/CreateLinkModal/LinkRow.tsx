@@ -74,7 +74,6 @@ export const LinkRow = ({ index, onLinkRowChange }: LinkRowProps) => {
                         placeholder="Name"
                         value={link.name}
                         onChange={(e) => handleChange('name', e.target.value)}
-                        autoFocus={index === 0}
                         autoComplete="off"
                         className="min-w-0 flex-5 px-3 py-2 text-sm text-[#b3bbc5] focus:outline-none"
                     />

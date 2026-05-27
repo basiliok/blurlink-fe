@@ -37,7 +37,7 @@ export interface SimpleLink {
     note: string;
     rank: string;
     icon: string;
-    subIcon?: string;
+    subIcon: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -77,6 +77,7 @@ export interface UpdateSimpleLinkRequest {
     note: string;
     rank: string;
     icon: string;
+    subIcon: string;
 }
 
 export interface UpdateSimpleLinkParams {
