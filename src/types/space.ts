@@ -56,6 +56,7 @@ export interface BulkSimpleLinkItem {
     url: string;
     rank: string;
     icon: string;
+    subIcon: string;
 }
 
 export interface CreateBulkLinksRequest {

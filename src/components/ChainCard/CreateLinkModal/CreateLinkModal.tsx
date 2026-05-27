@@ -46,6 +46,7 @@ export const CreateLinkModal = ({ isOpen, onClose, chainName, spaceId, chainId, 
         const linksWithRank: BulkSimpleLinkItem[] = validLinks.map((link, i) => ({
             ...link,
             rank: ranks[i],
+            subIcon: 'none',
         }));
 
         createBulkLinks(
