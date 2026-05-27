@@ -120,6 +120,7 @@ export const useChainLinkReorder = (chainId: string, links: LinkItem[] | undefin
                     note: activeLink.note,
                     rank: newRank,
                     icon: activeLink.icon,
+                    subIcon: activeLink.subIcon,
                 },
             },
             {
