@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { SimpleLink } from '../../types';
 import { LinkIcon } from '../LinkIcon';
+import { SubIcon } from '../SubIcon';
 import { getDisplayUrl } from '../../utils/url';
 import { DotsThreeVerticalIcon } from '../../assets/icons';
 import { EditLinkModal } from './EditLinkModal/EditLinkModal';
@@ -21,7 +22,10 @@ export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
                     href={link.url}
                     className="flex flex-1 flex-row gap-2.5 overflow-hidden pt-2 pr-1 pb-2 pl-2 transition-colors hover:bg-[#2a333d]"
                 >
-                    <LinkIcon name={link.name} iconName={link.icon} />
+                    <div className="relative">
+                        <LinkIcon name={link.name} iconName={link.icon} />
+                        {link.subIcon && <SubIcon color={link.subIcon} />}
+                    </div>
                     <div className="flex flex-1 flex-col overflow-hidden">
                         <span className="truncate text-[1rem] leading-[1.25rem] font-[500] text-[#D1D7E0]">
                             {link.name}

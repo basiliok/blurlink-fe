@@ -21,8 +21,10 @@ const radiusClasses = {
 
 export const SvgIcon = ({ icon, size = 'medium', radius = 'small' }: SvgIconProps) => {
     return (
-        <div className={`flex items-center justify-center ${sizeClasses[size]} ${radiusClasses[radius]}`}>
-            <img src={`/${icon}.svg`} alt={icon} className="h-full w-full" />
-        </div>
+        <img
+            src={`/${icon}.svg`}
+            alt={icon}
+            className={`${sizeClasses[size]} ${radiusClasses[radius]} object-contain`}
+        />
     );
 };

@@ -37,6 +37,7 @@ export interface SimpleLink {
     note: string;
     rank: string;
     icon: string;
+    subIcon?: string;
     createdAt: string;
     updatedAt: string;
 }

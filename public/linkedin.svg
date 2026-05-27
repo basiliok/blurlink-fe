@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="5" fill="#145faf"/>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="#145faf"/>
   <!-- i dot -->
   <circle cx="9.05" cy="9.1" r="1.7" fill="#F1F5F9"/>
   <!-- i stem -->
