@@ -11,4 +11,5 @@ export * from './DevTools';
 export * from './Tooltip/Tooltip';
 export * from './IconPicker/IconPicker';
 export * from './Dropdown/Dropdown';
-export * from './UserMenu/UserMenu';
+export * from './UserMenu';
+export * from './CreateMenu';

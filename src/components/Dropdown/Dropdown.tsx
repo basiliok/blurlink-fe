@@ -25,7 +25,7 @@ export const Dropdown = ({ trigger, children }: DropdownProps) => {
             {open && (
                 <div
                     style={{ animation: 'slide-in-bottom 0.2s ease-out both' }}
-                    className="absolute top-8 right-0 z-50 w-56 rounded-lg border border-[#3D444D] bg-[#29303a] p-2 shadow-2xl"
+                    className="absolute top-8 right-0 z-50 w-56 rounded-xl border border-[#3D444D] bg-[#29303a] p-2 shadow-2xl"
                 >
                     <div className="flex flex-col gap-2">
                         {typeof children === 'function' ? children(close) : children}

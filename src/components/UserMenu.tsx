@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useAuthStore } from '../../stores/auth.store';
-import { useUserStore } from '../../stores/user.store';
-import { SignOutIcon } from '../../assets/icons';
-import { Dropdown } from '../Dropdown/Dropdown';
-import { GenericIcon } from '../GenericIcon';
-import { Line } from '../Line';
+import { useAuthStore } from '../stores/auth.store';
+import { useUserStore } from '../stores/user.store';
+import { SignOutIcon } from '../assets/icons';
+import { Dropdown } from './Dropdown/Dropdown';
+import { GenericIcon } from './GenericIcon';
+import { Line } from './Line';
 
 export const UserMenu = () => {
     const email = useUserStore((state) => state.email);

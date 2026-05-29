@@ -15,3 +15,7 @@ export { CheckCircleIcon } from './CheckCircleIcon';
 export { XCircleIcon } from './XCircleIcon';
 export { CircleIcon } from './CircleIcon';
 export { CaretDownIcon } from './CaretDownIcon';
+export { FolderSimpleIcon } from './FolderSimpleIcon';
+export { FolderSimplePlusIcon } from './FolderSimplePlusIcon';
+export { ListIcon } from './ListIcon';
+export { FoldersIcon } from './FoldersIcon';
