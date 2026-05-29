@@ -10,3 +10,5 @@ export * from './Toast/ToastContainer';
 export * from './DevTools';
 export * from './Tooltip/Tooltip';
 export * from './IconPicker/IconPicker';
+export * from './Dropdown/Dropdown';
+export * from './UserMenu/UserMenu';

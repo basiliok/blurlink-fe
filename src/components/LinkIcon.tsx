@@ -5,7 +5,7 @@ import { SvgIcon } from './SvgIcon';
 interface LinkIconProps {
     name: string | null;
     iconName?: string;
-    size?: 'small' | 'small2' | 'medium' | 'large';
+    size?: 'small' | 'small2' | 'small3' | 'medium' | 'large';
     radius?: 'round' | 'small' | 'none';
     bgTransparent?: boolean;
 }
