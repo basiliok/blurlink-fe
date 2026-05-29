@@ -1,7 +1,7 @@
 import { useSpace, useChainsBySpaceId } from '../api';
 import { ListIcon } from '../assets/icons/ListIcon';
 import { ChainCard, Line, Loading, UserMenu } from '../components';
-import { FileTextIcon } from '../assets/icons';
+import { FileTextIcon, PlusIcon } from '../assets/icons';
 import { useDevice } from '../hooks';
 
 export const Home = () => {
@@ -42,7 +42,20 @@ export const Home = () => {
                     <h1 className="text-2xl font-bold">{space.name}</h1>
                 </div>
 
-                <UserMenu />
+                <div className="flex h-full items-center gap-3">
+                    <button
+                        type="button"
+                        className="border-input-border flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border hover:bg-[#2D333B]"
+                    >
+                        <PlusIcon size={'1rem'} />
+                    </button>
+
+                    <div className="h-6">
+                        <Line orientation="vertical" />
+                    </div>
+
+                    <UserMenu />
+                </div>
             </header>
 
             <main className="h-[calc(100%-4rem)] overflow-y-auto bg-[#212830]">
