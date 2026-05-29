@@ -1,18 +1,12 @@
 import ReactDOM from 'react-dom';
 import { XIcon } from '../../assets/icons';
 import type { ModalProps } from './Modal.types';
-import { useDevice } from '../../hooks';
 
 export const Modal = ({ title, customTitle, isOpen, onClose, children, maxWidth = 'max-w-160' }: ModalProps) => {
-    const isMobile = useDevice() === 'mobile';
-
     if (!isOpen) return null;
 
     return ReactDOM.createPortal(
-        <div
-            className={`fixed inset-0 z-50 flex justify-center bg-black/60 ${isMobile ? 'items-end' : 'items-center'}`}
-            onClick={onClose}
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
             <div
                 className={`relative w-full min-w-90 ${maxWidth} mx-3 my-20 rounded-[0.375rem] border border-[#3d444d] bg-[#161b22] shadow-lg`}
                 style={{ animation: 'slide-in-bottom 0.2s ease-out both' }}
