@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="grad-h" x1="0" y1="16" x2="12" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset=".2" stop-color="#f3be1e"/>
+      <stop offset=".5" stop-color="#2974ee"/>
+    </linearGradient>
+    <linearGradient id="grad-v" x1="6" y1="0" x2="24" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset=".2" stop-color="#f34d4e" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#f34d4e" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#19ba72" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#19ba72" stop-opacity="1"/>
+    </linearGradient>
+    <path id="pin" fill-rule="evenodd" clip-rule="evenodd" d="M16 2C22.0751 2 27 6.92487 27 13C27 15.6593 26.0561 18.0981 24.4854 20H24.5L16.5 30.5H15.5L7.5 20H7.51465C5.94388 18.0981 5 15.6593 5 13C5 6.92487 9.92487 2 16 2ZM16 6.50977C12.4157 6.50977 9.50977 9.41567 9.50977 13C9.50977 16.5843 12.4157 19.4902 16 19.4902C19.5843 19.4902 22.4902 16.5843 22.4902 13C22.4902 9.41567 19.5843 6.50977 16 6.50977Z"/>
+  </defs>
+  <use href="#pin" fill="url(#grad-h)"/>
+  <use href="#pin" fill="url(#grad-v)"/>
+</svg>
