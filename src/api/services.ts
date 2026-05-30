@@ -4,6 +4,7 @@ import type {
     BulkSimpleLinksResponse,
     Chain,
     CreateBulkLinksRequest,
+    CreateChainRequest,
     DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
@@ -31,6 +32,11 @@ export const getSpace = async (): Promise<Space[]> => {
 
 export const getChainsBySpaceId = async (spaceId: string): Promise<Chain[]> => {
     const { data } = await api.get<ApiResponse>(`/space/${spaceId}/chain`);
+    return data.result;
+};
+
+export const createChain = async (request: CreateChainRequest): Promise<Chain> => {
+    const { data } = await api.post<ApiResponse>('/chain', request);
     return data.result;
 };
 

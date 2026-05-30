@@ -24,6 +24,18 @@ export interface Chain {
     updatedAt: string;
 }
 
+export interface CreateChainRequest {
+    spaceId: string;
+    chainName: string;
+    position: number;
+    width: number;
+    height: number;
+    linkStyle: 'classic' | 'modern' | 'minimal';
+    linkDirection: 'horizontal' | 'vertical';
+    linkSize: 'small' | 'medium' | 'large';
+    note: string;
+}
+
 export type LinkType = 'simple' | 'multi';
 
 export interface SimpleLink {

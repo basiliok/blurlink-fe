@@ -5,6 +5,7 @@ import { useUserStore } from '../stores/user.store';
 import { useToast } from '../stores/toast.store';
 import {
     createBulkLinks,
+    createChain,
     deleteSimpleLink,
     getChainsBySpaceId,
     getLinksByChainId,
@@ -63,6 +64,19 @@ export const useChainsBySpaceId = (spaceId?: string) => {
         queryKey: ['chains', spaceId],
         queryFn: () => getChainsBySpaceId(spaceId as string),
         enabled: Boolean(spaceId),
+    });
+};
+
+export const useCreateChain = () => {
+    const queryClient = useQueryClient();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: createChain,
+        onSuccess: (_data, request) => {
+            toast.success('Group created successfully');
+            queryClient.invalidateQueries({ queryKey: ['chains', request.spaceId] });
+        },
     });
 };
 

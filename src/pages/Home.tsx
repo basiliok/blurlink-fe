@@ -29,7 +29,9 @@ export const Home = () => {
         );
     }
 
+    // eliminar cuando implementemos ranks a nivel de chain
     const sortedChains = chains?.sort((a, b) => a.position - b.position) || [];
+    const nextChainPosition = (sortedChains[sortedChains.length - 1]?.position ?? 0) + 1;
 
     return (
         <div className="h-full w-full">
@@ -42,7 +44,7 @@ export const Home = () => {
                 </div>
 
                 <div className="flex h-full items-center gap-3">
-                    <CreateMenu />
+                    <CreateMenu spaceId={space.id} nextChainPosition={nextChainPosition} />
 
                     <div className="h-6">
                         <Line orientation="vertical" />

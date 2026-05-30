@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { queryPersister } from '../config/queryPersister';
 import { useToast } from '../stores/toast.store';
 import { useUserStore } from '../stores/user.store';
+import { useSpace } from '../api';
 
 export const DevTools = () => {
     if (!import.meta.env.DEV) return null;
@@ -13,6 +14,9 @@ const DevToolsContent = () => {
     const toast = useToast();
     const userId = useUserStore((state) => state.userId);
     const email = useUserStore((state) => state.email);
+    // eliminar esto cuando space se guarde en el local storage
+    const { data: spaces } = useSpace();
+    const spaceId = spaces?.[0]?.id;
 
     const handleRefresh = async () => {
         await queryPersister.removeClient();
@@ -24,6 +28,12 @@ const DevToolsContent = () => {
         if (!userId) return;
         await navigator.clipboard.writeText(userId);
         toast.success('User ID copied');
+    };
+
+    const handleCopySpaceId = async () => {
+        if (!spaceId) return;
+        await navigator.clipboard.writeText(spaceId);
+        toast.success('Space ID copied');
     };
 
     return (
@@ -43,6 +53,18 @@ const DevToolsContent = () => {
                         className="cursor-pointer text-left font-mono text-[#D1D7E0] hover:text-[#58a6ff]"
                     >
                         {userId ?? '—'}
+                    </button>
+                </div>
+                <div className="flex flex-col gap-0.5">
+                    <span className="text-[10px] tracking-wide text-[#8B949E]">SPACE ID</span>
+                    <button
+                        type="button"
+                        onClick={handleCopySpaceId}
+                        disabled={!spaceId}
+                        title="Click to copy"
+                        className="cursor-pointer text-left font-mono text-[#D1D7E0] hover:text-[#58a6ff]"
+                    >
+                        {spaceId ?? '—'}
                     </button>
                 </div>
             </div>
