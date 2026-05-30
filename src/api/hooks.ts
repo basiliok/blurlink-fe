@@ -15,6 +15,7 @@ import {
     login,
     register,
     updateSimpleLink,
+    moveSimpleLink,
 } from './services';
 import { decodeJwt } from '../utils/jwt';
 import type { Space, Chain, LinkItem } from '../types/space';
@@ -134,6 +135,20 @@ export const useUpdateSimpleLink = () => {
         onSuccess: (_data, { body }) => {
             toast.success('Link updated successfully');
             queryClient.invalidateQueries({ queryKey: ['links', body.chainId] });
+        },
+    });
+};
+
+export const useMoveLink = () => {
+    const queryClient = useQueryClient();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: moveSimpleLink,
+        onSuccess: (_data, { body }) => {
+            toast.success('Link moved successfully');
+            queryClient.invalidateQueries({ queryKey: ['links', body.fromChainId] });
+            queryClient.invalidateQueries({ queryKey: ['links', body.toChainId] });
         },
     });
 };

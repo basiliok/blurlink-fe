@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal } from '../../Modal/Modal';
 import { Line } from '../../Line';
 import { Loading } from '../../Loading/Loading';
-import { TrashIcon } from '../../../assets/icons';
+import { TrashIcon, FoldersIcon } from '../../../assets/icons';
 import { useDeleteSimpleLink, useUpdateSimpleLink } from '../../../api';
 import { LinkIcon } from '../../LinkIcon';
 import { SubIcon } from '../../SubIcon';
@@ -10,7 +10,7 @@ import { IconPicker } from '../../IconPicker/IconPicker';
 import { SubIconPicker } from '../../SubIconPicker/SubIconPicker';
 import type { EditLinkModalProps } from './EditLinkModal.types';
 
-export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => {
+export const EditLinkModal = ({ isOpen, onClose, onRequestMove, link }: EditLinkModalProps) => {
     const [name, setName] = useState<string>(link.name);
     const [url, setUrl] = useState<string>(link.url);
     const [icon, setIcon] = useState<string>(link.icon);
@@ -20,16 +20,8 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
     const { mutate: deleteSimpleLink, isPending: isDeleting } = useDeleteSimpleLink();
     const isPending = isUpdating || isDeleting;
 
-    const clearForm = () => {
-        setName(link.name);
-        setUrl(link.url);
-        setIcon(link.icon);
-        setSubIcon(link.subIcon);
-    };
-
     const handleClose = () => {
         if (isPending) return;
-        clearForm();
         onClose();
     };
 
@@ -103,16 +95,27 @@ export const EditLinkModal = ({ isOpen, onClose, link }: EditLinkModalProps) => 
                 <SubIconPicker value={subIcon} onChange={setSubIcon} />
 
                 <div className="flex justify-between border-t border-[#3d444d] pt-4">
-                    <button
-                        type="button"
-                        onClick={handleDelete}
-                        disabled={isPending}
-                        className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] border border-[#6e2020] px-4 py-2 text-sm text-[#f85149] transition-colors hover:bg-[#3d0f0f] active:bg-[#4d1515] disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {isDeleting && <Loading size="1rem" />}
-                        <TrashIcon size="1rem" />
-                        {isDeleting ? 'Deleting...' : 'Delete'}
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            disabled={isPending}
+                            className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] border border-[#6e2020] px-4 py-2 text-sm text-[#f85149] transition-colors hover:bg-[#3d0f0f] active:bg-[#4d1515] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {isDeleting && <Loading size="1rem" />}
+                            <TrashIcon size="1rem" />
+                            {isDeleting ? 'Deleting...' : 'Delete'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onRequestMove}
+                            disabled={isPending}
+                            className="flex cursor-pointer items-center gap-2 rounded-[0.375rem] border border-[#3d444d] px-4 py-2 text-sm text-[#f0f6fc] transition-colors hover:bg-[#3d444d] active:bg-[#4a525b] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <FoldersIcon size="1rem" />
+                            Move
+                        </button>
+                    </div>
 
                     <div className="flex gap-2">
                         <button

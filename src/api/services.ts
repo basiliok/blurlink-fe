@@ -7,6 +7,7 @@ import type {
     CreateChainRequest,
     UpdateChainParams,
     DeleteChainParams,
+    MoveSimpleLinkParams,
     DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
@@ -63,6 +64,11 @@ export const createBulkLinks = async (request: CreateBulkLinksRequest): Promise<
 
 export const updateSimpleLink = async ({ linkId, body }: UpdateSimpleLinkParams): Promise<SimpleLink> => {
     const { data } = await api.patch<ApiResponse>(`/link/simple/${linkId}`, body);
+    return data.result;
+};
+
+export const moveSimpleLink = async ({ linkId, body }: MoveSimpleLinkParams): Promise<SimpleLink> => {
+    const { data } = await api.post<ApiResponse>(`/link/simple/${linkId}/move`, body);
     return data.result;
 };
 

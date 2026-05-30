@@ -113,6 +113,18 @@ export interface UpdateSimpleLinkParams {
     body: UpdateSimpleLinkRequest;
 }
 
+export interface MoveSimpleLinkRequest {
+    spaceId: string;
+    fromChainId: string;
+    toChainId: string;
+    rank: string;
+}
+
+export interface MoveSimpleLinkParams {
+    linkId: string;
+    body: MoveSimpleLinkRequest;
+}
+
 export interface DeleteSimpleLinkRequest {
     chainId: string;
 }

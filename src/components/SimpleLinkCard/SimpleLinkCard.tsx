@@ -5,6 +5,7 @@ import { SubIcon } from '../SubIcon';
 import { getDisplayUrl } from '../../utils/url';
 import { DotsThreeVerticalIcon } from '../../assets/icons';
 import { EditLinkModal } from './EditLinkModal/EditLinkModal';
+import { MoveLinkModal } from '../MoveLinkModal/MoveLinkModal';
 
 interface SimpleLinkProps {
     link: SimpleLink;
@@ -13,6 +14,7 @@ interface SimpleLinkProps {
 
 export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
     const opacityClass = isFaded ? 'opacity-60' : '';
 
     return (
@@ -44,7 +46,20 @@ export const SimpleLinkCard = ({ link, isFaded = false }: SimpleLinkProps) => {
                 </button>
             </div>
 
-            <EditLinkModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} link={link} />
+            {isEditModalOpen && (
+                <EditLinkModal
+                    isOpen={isEditModalOpen}
+                    onClose={() => setIsEditModalOpen(false)}
+                    onRequestMove={() => {
+                        setIsEditModalOpen(false);
+                        setIsMoveModalOpen(true);
+                    }}
+                    link={link}
+                />
+            )}
+            {isMoveModalOpen && (
+                <MoveLinkModal isOpen={isMoveModalOpen} onClose={() => setIsMoveModalOpen(false)} link={link} />
+            )}
         </>
     );
 };
