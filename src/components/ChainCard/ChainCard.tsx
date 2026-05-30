@@ -4,8 +4,9 @@ import type { Chain } from '../../types';
 import { useLinksByChainId } from '../../api';
 import { SimpleLinkCard } from '../SimpleLinkCard/SimpleLinkCard';
 import './ChainCard.css';
-import { TrashIcon } from '../../assets/icons';
+import { PencilSimpleIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
+import { EditChainModal } from '../EditChainModal/EditChainModal';
 import { AddLinkCard } from './AddLinkCard';
 import { DraggableLinkCard } from './DraggableLinkCard';
 import { useChainLinkReorder } from './useChainLinkReorder';
@@ -17,7 +18,8 @@ interface ChainCardProps {
 
 export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
     const { data: links, isLoading } = useLinksByChainId(spaceId, chain.id);
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false);
+    const [isEditChainModalOpen, setIsEditChainModalOpen] = useState(false);
 
     const { sortedSimples, dragTriggers, draggedLink, getDropIndicator, handlers } = useChainLinkReorder(
         chain.id,
@@ -46,6 +48,13 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                     <div className="flex flex-row items-center justify-center gap-2 text-[#9198A1]">
                         <button
                             type="button"
+                            onClick={() => setIsEditChainModalOpen(true)}
+                            className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
+                        >
+                            <PencilSimpleIcon size={'1.375rem'} />
+                        </button>
+                        <button
+                            type="button"
                             className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
                             <TrashIcon size={'1.375rem'} />
@@ -65,20 +74,27 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                                     dropIndicator={getDropIndicator(link.id)}
                                 />
                             ))}
-                            <AddLinkCard onClick={() => setIsCreateModalOpen(true)} />
+                            <AddLinkCard onClick={() => setIsCreateLinkModalOpen(true)} />
                         </div>
                         <DragOverlay>{draggedLink && <SimpleLinkCard link={draggedLink} isFaded={true} />}</DragOverlay>
                     </DndContext>
                 )}
             </div>
-            {isCreateModalOpen && (
+            {isCreateLinkModalOpen && (
                 <CreateLinkModal
-                    isOpen={isCreateModalOpen}
-                    onClose={() => setIsCreateModalOpen(false)}
+                    isOpen={isCreateLinkModalOpen}
+                    onClose={() => setIsCreateLinkModalOpen(false)}
                     chainName={chain.chainName}
                     spaceId={spaceId}
                     chainId={chain.id}
                     lastRank={sortedSimples[sortedSimples.length - 1]?.rank ?? null}
+                />
+            )}
+            {isEditChainModalOpen && (
+                <EditChainModal
+                    isOpen={isEditChainModalOpen}
+                    onClose={() => setIsEditChainModalOpen(false)}
+                    chain={chain}
                 />
             )}
         </>

@@ -6,6 +6,7 @@ import { useToast } from '../stores/toast.store';
 import {
     createBulkLinks,
     createChain,
+    updateChain,
     deleteSimpleLink,
     getChainsBySpaceId,
     getLinksByChainId,
@@ -15,11 +16,7 @@ import {
     updateSimpleLink,
 } from './services';
 import { decodeJwt } from '../utils/jwt';
-import type {
-    Space,
-    Chain,
-    LinkItem,
-} from '../types/space';
+import type { Space, Chain, LinkItem } from '../types/space';
 
 export const useLogin = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
@@ -76,6 +73,19 @@ export const useCreateChain = () => {
         onSuccess: (_data, request) => {
             toast.success('Group created successfully');
             queryClient.invalidateQueries({ queryKey: ['chains', request.spaceId] });
+        },
+    });
+};
+
+export const useUpdateChain = () => {
+    const queryClient = useQueryClient();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: updateChain,
+        onSuccess: (_data, { body }) => {
+            toast.success('Group updated successfully');
+            queryClient.invalidateQueries({ queryKey: ['chains', body.spaceId] });
         },
     });
 };

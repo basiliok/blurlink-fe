@@ -36,6 +36,13 @@ export interface CreateChainRequest {
     note: string;
 }
 
+export type UpdateChainRequest = CreateChainRequest;
+
+export interface UpdateChainParams {
+    chainId: string;
+    body: UpdateChainRequest;
+}
+
 export type LinkType = 'simple' | 'multi';
 
 export interface SimpleLink {
