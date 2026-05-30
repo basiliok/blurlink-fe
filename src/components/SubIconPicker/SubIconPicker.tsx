@@ -1,4 +1,4 @@
-import { AVAILABLE_SUB_ICONS, subIconColorClasses } from '../../constants/subIcons';
+import { AVAILABLE_SUB_ICONS, subIconColorClasses } from '../../constants';
 import { Tooltip } from '../Tooltip/Tooltip';
 import type { SubIconPickerProps } from './SubIconPicker.types';
 

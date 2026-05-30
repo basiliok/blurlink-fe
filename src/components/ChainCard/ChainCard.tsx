@@ -7,6 +7,7 @@ import './ChainCard.css';
 import { PencilSimpleIcon, TrashIcon } from '../../assets/icons';
 import { CreateLinkModal } from './CreateLinkModal/CreateLinkModal';
 import { EditChainModal } from '../EditChainModal/EditChainModal';
+import { DeleteChainModal } from '../DeleteChainModal/DeleteChainModal';
 import { AddLinkCard } from './AddLinkCard';
 import { DraggableLinkCard } from './DraggableLinkCard';
 import { useChainLinkReorder } from './useChainLinkReorder';
@@ -20,6 +21,7 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
     const { data: links, isLoading } = useLinksByChainId(spaceId, chain.id);
     const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false);
     const [isEditChainModalOpen, setIsEditChainModalOpen] = useState(false);
+    const [isDeleteChainModalOpen, setIsDeleteChainModalOpen] = useState(false);
 
     const { sortedSimples, dragTriggers, draggedLink, getDropIndicator, handlers } = useChainLinkReorder(
         chain.id,
@@ -55,6 +57,7 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                         </button>
                         <button
                             type="button"
+                            onClick={() => setIsDeleteChainModalOpen(true)}
                             className="flex h-6 w-6 cursor-pointer items-center justify-center hover:text-[#D1D7E0] active:text-[#9198A1]"
                         >
                             <TrashIcon size={'1.375rem'} />
@@ -94,6 +97,13 @@ export const ChainCard = ({ chain, spaceId }: ChainCardProps) => {
                 <EditChainModal
                     isOpen={isEditChainModalOpen}
                     onClose={() => setIsEditChainModalOpen(false)}
+                    chain={chain}
+                />
+            )}
+            {isDeleteChainModalOpen && (
+                <DeleteChainModal
+                    isOpen={isDeleteChainModalOpen}
+                    onClose={() => setIsDeleteChainModalOpen(false)}
                     chain={chain}
                 />
             )}

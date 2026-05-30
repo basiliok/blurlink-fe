@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DESKTOP_QUERY, TABLET_QUERY } from '../constants/responsive';
+import { DESKTOP_QUERY, TABLET_QUERY } from '../constants';
 
 export type Device = 'mobile' | 'tablet' | 'desktop';
 

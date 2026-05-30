@@ -1,4 +1,4 @@
-import { AVAILABLE_SVGS } from '../../constants/svgs';
+import { AVAILABLE_SVGS } from '../../constants';
 import { SvgIcon } from '../SvgIcon';
 import { Tooltip } from '../Tooltip/Tooltip';
 import type { IconPickerProps } from './IconPicker.types';

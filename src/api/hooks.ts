@@ -7,6 +7,7 @@ import {
     createBulkLinks,
     createChain,
     updateChain,
+    deleteChain,
     deleteSimpleLink,
     getChainsBySpaceId,
     getLinksByChainId,
@@ -85,6 +86,19 @@ export const useUpdateChain = () => {
         mutationFn: updateChain,
         onSuccess: (_data, { body }) => {
             toast.success('Group updated successfully');
+            queryClient.invalidateQueries({ queryKey: ['chains', body.spaceId] });
+        },
+    });
+};
+
+export const useDeleteChain = () => {
+    const queryClient = useQueryClient();
+    const toast = useToast();
+
+    return useMutation({
+        mutationFn: deleteChain,
+        onSuccess: (_data, { body }) => {
+            toast.success('Group deleted successfully');
             queryClient.invalidateQueries({ queryKey: ['chains', body.spaceId] });
         },
     });

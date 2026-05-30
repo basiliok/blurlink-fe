@@ -6,6 +6,7 @@ import type {
     CreateBulkLinksRequest,
     CreateChainRequest,
     UpdateChainParams,
+    DeleteChainParams,
     DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
@@ -44,6 +45,10 @@ export const createChain = async (request: CreateChainRequest): Promise<Chain> =
 export const updateChain = async ({ chainId, body }: UpdateChainParams): Promise<Chain> => {
     const { data } = await api.patch<ApiResponse>(`/chain/${chainId}`, body);
     return data.result;
+};
+
+export const deleteChain = async ({ chainId, body }: DeleteChainParams): Promise<void> => {
+    await api.delete(`/chain/${chainId}`, { data: body });
 };
 
 export const getLinksByChainId = async (spaceId: string, chainId: string): Promise<LinkItem[]> => {

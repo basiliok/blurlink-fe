@@ -1,4 +1,4 @@
-import { isAvailableSubIcon, subIconColorClasses } from '../constants/subIcons';
+import { isAvailableSubIcon, subIconColorClasses } from '../constants';
 
 interface SubIconProps {
     color: string;

@@ -1,4 +1,4 @@
-import type { AvailableSvg } from '../constants/svgs';
+import type { AvailableSvg } from '../constants';
 
 interface SvgIconProps {
     icon: AvailableSvg;

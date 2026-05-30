@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { XIcon } from '../../assets/icons';
 import { useToastStore } from '../../stores/toast.store';
-import { TOAST_DURATION } from '../../constants/toast';
+import { TOAST_DURATION } from '../../constants';
 import type { Toast, ToastVariant } from './Toast.types';
 
 const variantStyles: Record<ToastVariant, string> = {

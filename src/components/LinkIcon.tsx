@@ -1,4 +1,4 @@
-import { isAvailableSvg } from '../constants/svgs';
+import { isAvailableSvg } from '../constants';
 import { GenericIcon } from './GenericIcon';
 import { SvgIcon } from './SvgIcon';
 

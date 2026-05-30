@@ -43,6 +43,15 @@ export interface UpdateChainParams {
     body: UpdateChainRequest;
 }
 
+export interface DeleteChainRequest {
+    spaceId: string;
+}
+
+export interface DeleteChainParams {
+    chainId: string;
+    body: DeleteChainRequest;
+}
+
 export type LinkType = 'simple' | 'multi';
 
 export interface SimpleLink {

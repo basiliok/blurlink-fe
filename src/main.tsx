@@ -4,7 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { App } from './App.tsx';
 import { queryPersister } from './config/queryPersister';
-import { PERSIST_MAX_AGE, STALE_TIME } from './constants/query.ts';
+import { PERSIST_MAX_AGE, STALE_TIME } from './constants';
 
 const queryClient = new QueryClient({
     defaultOptions: {
