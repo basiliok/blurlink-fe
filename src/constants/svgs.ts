@@ -1,6 +1,7 @@
 // 'default' is intentionally first — it's the fallback option, not a brand. The rest stay alphabetical.
 export const AVAILABLE_SVGS = [
     'default',
+    'amazon',
     'azure',
     'buk',
     'chatgpt',
@@ -16,6 +17,7 @@ export const AVAILABLE_SVGS = [
     'google-analytics',
     'google-drive',
     'google-maps',
+    'grok',
     'instagram',
     'jira',
     'linkedin',
@@ -26,6 +28,7 @@ export const AVAILABLE_SVGS = [
     'peluchin',
     'pinterest',
     'power-point',
+    'reddit',
     'slack',
     'steam',
     'teams',
