@@ -1,1 +1,1 @@
-export const DELETE_DELAY_SECONDS = 5;
+export const DELETE_DELAY_SECONDS = 3;
