@@ -1,6 +1,7 @@
 // 'default' is intentionally first — it's the fallback option, not a brand. The rest stay alphabetical.
 export const AVAILABLE_SVGS = [
     'default',
+    '2p',
     'amazon',
     'azure',
     'buk',
