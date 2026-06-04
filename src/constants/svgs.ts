@@ -6,6 +6,7 @@ export const AVAILABLE_SVGS = [
     'azure',
     'buk',
     'chatgpt',
+    'cibertec',
     'claude',
     'confluence',
     'excel',
