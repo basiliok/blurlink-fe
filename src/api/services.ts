@@ -11,6 +11,7 @@ import type {
     DeleteSimpleLinkParams,
     LinkItem,
     LoginRequest,
+    Note,
     RegisterRequest,
     SimpleLink,
     Space,
@@ -35,6 +36,11 @@ export const getSpace = async (): Promise<Space[]> => {
 
 export const getChainsBySpaceId = async (spaceId: string): Promise<Chain[]> => {
     const { data } = await api.get<ApiResponse>(`/space/${spaceId}/chain`);
+    return data.result;
+};
+
+export const getNotesBySpaceId = async (spaceId: string): Promise<Note[]> => {
+    const { data } = await api.get<ApiResponse>(`/space/${spaceId}/note`);
     return data.result;
 };
 

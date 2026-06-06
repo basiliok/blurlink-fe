@@ -10,6 +10,7 @@ import {
     deleteChain,
     deleteSimpleLink,
     getChainsBySpaceId,
+    getNotesBySpaceId,
     getLinksByChainId,
     getSpace,
     login,
@@ -18,7 +19,7 @@ import {
     moveSimpleLink,
 } from './services';
 import { decodeJwt } from '../utils/jwt';
-import type { Space, Chain, LinkItem } from '../types/space';
+import type { Space, Chain, Note, LinkItem } from '../types/space';
 
 export const useLogin = () => {
     const setAuth = useAuthStore((state) => state.setAuth);
@@ -62,6 +63,14 @@ export const useChainsBySpaceId = (spaceId?: string) => {
     return useQuery<Chain[]>({
         queryKey: ['chains', spaceId],
         queryFn: () => getChainsBySpaceId(spaceId as string),
+        enabled: Boolean(spaceId),
+    });
+};
+
+export const useNotesBySpaceId = (spaceId?: string) => {
+    return useQuery<Note[]>({
+        queryKey: ['notes', spaceId],
+        queryFn: () => getNotesBySpaceId(spaceId as string),
         enabled: Boolean(spaceId),
     });
 };

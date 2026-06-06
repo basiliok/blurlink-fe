@@ -1,9 +1,23 @@
+export interface SpaceSettings {
+    showChainNames: boolean;
+}
+
 export interface Space {
     id: string;
     userId: string;
     name: string;
     slug: string;
-    note: string;
+    settings: SpaceSettings;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Note {
+    id: string;
+    userId: string;
+    spaceId: string;
+    title: string;
+    content: string;
     createdAt: string;
     updatedAt: string;
 }
