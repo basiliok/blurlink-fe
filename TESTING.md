@@ -461,7 +461,7 @@ trabajo llaman "uso de mocks".
 
 - [x] Paso 0: instalar Vitest y agregar los scripts
 - [x] Paso 1: `utils/url.ts`
-- [ ] Paso 2: `utils/linkRank.ts`
+- [x] Paso 2: `utils/linkRank.ts`
 - [ ] Paso 3: schemas de zod
 - [ ] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
 - [ ] Paso 5: `toast.store`, `auth.store` y `user.store`
