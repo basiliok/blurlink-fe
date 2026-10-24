@@ -218,11 +218,7 @@ import { getDisplayUrl } from './url';
 
 describe('getDisplayUrl', () => {
     it('returns only the host when the URL has no path', () => {
-        const url = 'https://github.com/';
-
-        const result = getDisplayUrl(url);
-
-        expect(result).toBe('github.com');
+        expect(getDisplayUrl('https://github.com/')).toBe('github.com');
     });
 
     it('removes the www prefix', () => {
@@ -464,7 +460,7 @@ trabajo llaman "uso de mocks".
 ## Progreso
 
 - [x] Paso 0: instalar Vitest y agregar los scripts
-- [ ] Paso 1: `utils/url.ts`
+- [x] Paso 1: `utils/url.ts`
 - [ ] Paso 2: `utils/linkRank.ts`
 - [ ] Paso 3: schemas de zod
 - [ ] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
