@@ -254,7 +254,7 @@ anterior.
 | ---- | ------------------- | --------------------------------------------------------------------- | ------------ |
 | 1    | `utils/url.ts`      | `describe`, `it`, `expect`, `toBe`, AAA, `it.each`                    | Node         |
 | 2    | `utils/linkRank.ts` | `toEqual` vs `toBe`, `toHaveLength`, probar relaciones, inmutabilidad | Node         |
-| 3    | Schemas de zod      | `safeParse`, valores límite, `describe.each`                          | Node         |
+| 3    | Schemas de zod      | `safeParse`, comprobar mensajes de error, `result.data`               | Node         |
 | 4    | `utils/jwt.ts`      | Helpers para datos de prueba, `toThrow`, TDD sobre un bug             | Node         |
 | 5    | Stores de zustand   | `beforeEach`, `vi.spyOn`, `mockReturnValue`, `localStorage`           | Node / jsdom |
 | 6    | Hooks propios       | `renderHook`, `act`, fake timers, `vi.stubGlobal`                     | jsdom        |
@@ -287,11 +287,11 @@ Cómo:
 
 ### Paso 3: schemas de zod
 
-| Schema                                              | Archivo                                                          |
-| --------------------------------------------------- | ---------------------------------------------------------------- |
-| `createChainFormSchema`                             | `components/CreateChainModal/CreateChainModal.schema.ts`         |
-| `editChainFormSchema`                               | `components/EditChainModal/EditChainModal.schema.ts`             |
-| `bulkSimpleLinkItemSchema`, `createBulkLinksSchema` | `components/ChainCard/CreateLinkModal/CreateLinkModal.schema.ts` |
+| Schema                     | Archivo                                                          |
+| -------------------------- | ---------------------------------------------------------------- |
+| `createChainFormSchema`    | `components/CreateChainModal/CreateChainModal.schema.ts`         |
+| `editChainFormSchema`      | `components/EditChainModal/EditChainModal.schema.ts`             |
+| `bulkSimpleLinkItemSchema` | `components/ChainCard/CreateLinkModal/CreateLinkModal.schema.ts` |
 
 Casos:
 
@@ -302,21 +302,17 @@ Casos:
     - `url` inválidas, con el mensaje `Invalid URL format`: `javascript:alert(1)`, `JAVASCRIPT:alert(1)` (en
       mayúsculas), `data:text/html,hi` y `github.com` (sin protocolo).
     - `name` vacío falla con `Name is required`.
-- **`createBulkLinksSchema`**:
-    - `spaceId` o `chainId` con menos de 30 caracteres fallan.
-    - Valores límite de `links`: 0 → `At least one link is required` · 1 → pasa · 15 → pasa · 16 →
-      `Maximum 15 links allowed per request`.
 
 Cómo:
 
 - Usa `safeParse`, que no lanza errores sino que devuelve `{ success, data }` o `{ success, error }`:
-  `expect(result.success).toBe(false)` y `expect(result.error?.issues[0].message).toBe('Name is required')`.
-- Los schemas de create y edit tienen la misma forma. Con
-  `describe.each([['createChainFormSchema', createChainFormSchema], ['editChainFormSchema', editChainFormSchema]])('%s', (_, schema) => { ... })`
-  escribes los casos una sola vez y se ejecutan para los dos.
-- **Valores límite:** los bugs suelen estar en los bordes (`min`, `max`), por eso se prueba justo en el límite y uno más
-  allá. Crea los arrays con `Array.from({ length: 16 }, () => validLink)`.
-- Para los IDs usa un string de 30 caracteres: `'x'.repeat(30)`.
+    - Si el caso debe fallar, comprueba el mensaje: `expect(result.error?.issues[0].message).toBe('Name is required')`.
+      Si el schema pasara, `error` sería `undefined` y el test fallaría igual.
+    - Si el caso debe pasar: `expect(result.success).toBe(true)`, o `expect(result.data).toEqual(...)` cuando importa
+      el dato transformado (por ejemplo, el `trim`).
+- Cada schema tiene su propio archivo de test al lado (convención 1), aunque create y edit tengan los mismos casos. En
+  los tests se prefiere que cada archivo se entienda solo, aunque se repita algo de código: si mañana cambia el schema
+  de edit, cambias su test sin tocar el de create.
 
 ### Paso 4: `src/utils/jwt.ts`
 
@@ -462,7 +458,7 @@ trabajo llaman "uso de mocks".
 - [x] Paso 0: instalar Vitest y agregar los scripts
 - [x] Paso 1: `utils/url.ts`
 - [x] Paso 2: `utils/linkRank.ts`
-- [ ] Paso 3: schemas de zod
+- [x] Paso 3: schemas de zod
 - [ ] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
 - [ ] Paso 5: `toast.store`, `auth.store` y `user.store`
 - [ ] Paso 6: `useCountdown`, `useToast` y `useDevice`
