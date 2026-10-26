@@ -321,13 +321,14 @@ Cómo:
 Casos:
 
 - Devuelve `userId` y `email` del payload.
-- Ignora los demás campos del payload (`iat`, `exp`): el resultado es **exactamente** `{ userId, email }`, así que se
-  comprueba con `toEqual`.
+- Ignora los demás campos del payload (`iss`, `iat`, `exp`): el resultado es **exactamente** `{ userId, email }`, así
+  que se comprueba con `toEqual`.
 - Un token mal formado (`'abc'`, `'a.%%%.c'`) lanza un error.
-- **Payload en base64url:** este caso **hoy falla**. Los JWT reales codifican el payload en base64url, que usa `-` y `_`
-  en lugar de `+` y `/`. `decodeJwt` usa `atob`, que solo entiende base64 estándar, así que un payload como
-  `{"userId":"u1","email":"kevin>?@b.com"}` lanza `InvalidCharacterError`. Es el ejercicio de **TDD puro** del plan:
-  escribe el test (rojo) y, si decides corregir la función, cámbiala hasta que pase (verde).
+- **Payload en base64url:** los JWT codifican el payload en base64url, que usa `-` y `_` en lugar de `+` y `/`.
+  `decodeJwt` usaba `atob`, que solo entiende base64 estándar, así que un payload que generara esos caracteres lanzaba
+  `InvalidCharacterError`. Con texto ASCII solo pasa si el JSON tiene `>`, `?` o `~` en ciertas posiciones (o
+  caracteres no ASCII), por eso es raro, pero un email válido como `k~ev?indev@example.com` lo dispara. Se corrigió con
+  **TDD puro**: primero el test (rojo) y después la conversión de `-` → `+` y `_` → `/` antes de `atob` (verde).
 
 Cómo:
 
@@ -459,7 +460,7 @@ trabajo llaman "uso de mocks".
 - [x] Paso 1: `utils/url.ts`
 - [x] Paso 2: `utils/linkRank.ts`
 - [x] Paso 3: schemas de zod
-- [ ] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
+- [x] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
 - [ ] Paso 5: `toast.store`, `auth.store` y `user.store`
 - [ ] Paso 6: `useCountdown`, `useToast` y `useDevice`
 - [ ] Paso 7: `api/services.ts`
