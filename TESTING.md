@@ -256,7 +256,7 @@ anterior.
 | 2    | `utils/linkRank.ts` | `toEqual` vs `toBe`, `toHaveLength`, probar relaciones, inmutabilidad | Node         |
 | 3    | Schemas de zod      | `safeParse`, comprobar mensajes de error, `result.data`               | Node         |
 | 4    | `utils/jwt.ts`      | Helpers para datos de prueba, `toThrow`, TDD sobre un bug             | Node         |
-| 5    | Stores de zustand   | `beforeEach`, `vi.spyOn`, `mockReturnValue`, `localStorage`           | Node / jsdom |
+| 5    | Stores de zustand   | `beforeEach`, `vi.spyOn`, `toMatchObject`, `localStorage`             | Node / jsdom |
 | 6    | Hooks propios       | `renderHook`, `act`, fake timers, `vi.stubGlobal`                     | jsdom        |
 | 7    | `api/services.ts`   | `vi.mock`, `vi.mocked`, `mockResolvedValue`, tests async              | Node         |
 
@@ -346,8 +346,8 @@ Cómo:
 
 ### Paso 5: stores de zustand
 
-Los stores se prueban **sin React**: `useToastStore.getState()` devuelve el estado y las acciones, y
-`useToastStore.setState()` lo resetea.
+Los stores se prueban **sin React**: `getState()` devuelve el estado y las acciones, y `setState()` permite prepararlo o
+resetearlo.
 
 **`stores/toast.store.ts` (Node)**
 
@@ -371,12 +371,20 @@ Usan `persist`, que guarda el estado en `localStorage`, y Node no tiene `localSt
 
 Cómo:
 
-- En `beforeEach`: `useToastStore.setState({ toastList: [] })` (y `localStorage.clear()` en los stores que persisten).
-  **Por qué:** cada store es un singleton, una sola instancia compartida por todos los tests del archivo. Sin resetear,
-  el estado de un test se filtra al siguiente.
+- En `beforeEach`: `useToastStore.setState(useToastStore.getInitialState())`, que vuelve al estado inicial definido en
+  el `create` (en los stores con `persist`, sin lo cargado de `localStorage`), y `localStorage.clear()` en los que
+  persisten. **Por qué:** cada store es un singleton, una sola instancia compartida por todos los tests del archivo. Sin
+  resetear, el estado de un test se filtra al siguiente. Para comprobarlo, `npx vitest run src/stores --sequence.shuffle`
+  corre los tests en orden aleatorio.
+- Para probar una acción sola, prepara el estado con `setState` en lugar de usar otra acción: el test de `removeToast`
+  arma la lista con `setState`, así no falla si se rompe `addToast`.
+- El estado incluye las acciones (funciones), así que se compara con `toMatchObject`, que solo mira las propiedades que
+  le pasas: `expect(useAuthStore.getState()).toMatchObject({ token: null, isAuthenticated: false })`.
 - `crypto.randomUUID` genera un id distinto en cada ejecución. Para comparar el toast completo, fíjalo con
   `vi.spyOn(crypto, 'randomUUID').mockReturnValue('00000000-0000-0000-0000-000000000001')` y restáuralo con
   `vi.restoreAllMocks()` en `afterEach`.
+- Para leer lo guardado: `const readStorage = (key: string): unknown => JSON.parse(localStorage.getItem(key) ?? 'null')`.
+  Si la clave no existe devuelve `null` y el test falla con un mensaje claro.
 
 ### Paso 6: hooks propios (jsdom)
 
@@ -461,7 +469,7 @@ trabajo llaman "uso de mocks".
 - [x] Paso 2: `utils/linkRank.ts`
 - [x] Paso 3: schemas de zod
 - [x] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
-- [ ] Paso 5: `toast.store`, `auth.store` y `user.store`
+- [x] Paso 5: `toast.store`, `auth.store` y `user.store`
 - [ ] Paso 6: `useCountdown`, `useToast` y `useDevice`
 - [ ] Paso 7: `api/services.ts`
 

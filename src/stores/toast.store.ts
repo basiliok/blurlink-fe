@@ -11,13 +11,13 @@ export const useToastStore = create<ToastState>()((set) => ({
     toastList: [],
     addToast: (message, variant) => {
         const id = crypto.randomUUID();
-        set((state) => ({
-            toastList: [...state.toastList, { id, message, variant }],
+        set((prevState) => ({
+            toastList: [...prevState.toastList, { id, message, variant }],
         }));
     },
     removeToast: (id) => {
-        set((state) => ({
-            toastList: state.toastList.filter((t) => t.id !== id),
+        set((prevState) => ({
+            toastList: prevState.toastList.filter((t) => t.id !== id),
         }));
     },
 }));
