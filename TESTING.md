@@ -569,8 +569,16 @@ Cómo:
 
 - `render(<GenericIcon name="github" />)` y después `expect(screen.getByText('G')).toBeInTheDocument()`. `screen` busca
   en todo el `document`, así que no hace falta guardar lo que devuelve `render`.
-- La primera vez, `toMatchSnapshot()` guarda el HTML en `__snapshots__/GenericIcon.test.tsx.snap`, y las siguientes lo
-  compara. Si el cambio fue a propósito, se actualiza con `npx vitest run -u` y el `.snap` se commitea junto al test.
+- Si `getByText` no encuentra el texto, el error muestra el HTML que se renderizó: con la función rota se ve la `g`
+  minúscula en lugar de la `G`.
+- `it.each([null, ''])` usa `%j` en el nombre del test, que muestra `null` y `""`. Con `%s`, el caso `''` quedaría con
+  el nombre cortado.
+- Snapshot: `const { asFragment } = render(...)` y `expect(asFragment()).toMatchSnapshot()`. `asFragment()` devuelve una
+  copia del HTML renderizado.
+- La primera vez, el snapshot **siempre pasa**: solo guarda el HTML en `__snapshots__/GenericIcon.test.tsx.snap`
+  (Vitest muestra `Snapshots 1 written`). Por eso hay que leer el `.snap` antes de commitearlo: es la única vez que una
+  persona revisa que ese HTML sea el correcto. Las siguientes veces lo compara, y si no coincide muestra el diff. Si el
+  cambio fue a propósito, se actualiza con `npx vitest run -u`. El `.snap` se commitea junto al test.
 
 **Por qué un solo snapshot:** falla con cualquier cambio del HTML, incluidas las clases de Tailwind. Con muchos, se
 terminan actualizando sin leerlos y dejan de proteger. Sirve para HTML chico y estable como este; el comportamiento se
@@ -690,7 +698,7 @@ Cómo:
 ### Fase 2: componentes
 
 - [x] Paso 8: setup (`user-event`, `jest-dom` y `setupTests.ts`)
-- [ ] Paso 9: `GenericIcon`
+- [x] Paso 9: `GenericIcon`
 - [ ] Paso 10: `Dropdown`
 - [ ] Paso 11: `AuthGuard` y `GuestGuard`
 - [ ] Paso 12: `Register`

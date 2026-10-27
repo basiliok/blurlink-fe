@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GenericIcon > matches the saved snapshot of a large round icon 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center font-medium text-[#D1D7E0] bg-[#3D444D] h-12 w-12 text-lg rounded-full"
+  >
+    G
+  </div>
+</DocumentFragment>
+`;
