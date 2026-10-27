@@ -18,6 +18,10 @@ Quedan fuera de los unitarios:
   que son tests de integración.
 - `src/config/axios.ts`: los interceptores dependen de axios y de los stores a la vez.
 - `src/constants/`, `src/types/` y `src/assets/`: no tienen lógica que probar.
+- El hook `useToast` (en `src/stores/toast.store.ts`): es un atajo sin lógica (ver el paso 6).
+
+**Regla para decidir qué testear:** un test unitario vale la pena cuando el código tiene lógica (condiciones, cálculos,
+transformaciones, bordes) o cuando un error sería grave y silencioso.
 
 ## Stack
 
@@ -26,6 +30,7 @@ Quedan fuera de los unitarios:
 | `vitest`                                          | Paso 0            | Ejecuta los tests. Trae `expect`, mocks (`vi.fn`, `vi.mock`, `vi.spyOn`), fake timers y snapshots   |
 | `jsdom`                                           | Paso 5            | Simula `window`, `document` y `localStorage` dentro de Node                                         |
 | `@testing-library/react` + `@testing-library/dom` | Paso 6            | `renderHook` para probar hooks. `@testing-library/dom` es una dependencia obligatoria de la primera |
+| `mock-match-media`                                | Paso 6            | Simula `window.matchMedia` (jsdom no lo trae): evalúa media queries contra un ancho falso           |
 
 La fase 2 (componentes) agregará `@testing-library/user-event` y `@testing-library/jest-dom`.
 
@@ -257,7 +262,7 @@ anterior.
 | 3    | Schemas de zod      | `safeParse`, comprobar mensajes de error, `result.data`               | Node         |
 | 4    | `utils/jwt.ts`      | Helpers para datos de prueba, `toThrow`, TDD sobre un bug             | Node         |
 | 5    | Stores de zustand   | `beforeEach`, `vi.spyOn`, `toMatchObject`, `localStorage`             | Node / jsdom |
-| 6    | Hooks propios       | `renderHook`, `act`, fake timers, `vi.stubGlobal`                     | jsdom        |
+| 6    | Hooks propios       | `renderHook`, `act`, fake timers, `vi.stubGlobal`, valores límite     | jsdom        |
 | 7    | `api/services.ts`   | `vi.mock`, `vi.mocked`, `mockResolvedValue`, tests async              | Node         |
 
 ### Paso 1: `src/utils/url.ts`
@@ -388,7 +393,7 @@ Cómo:
 
 ### Paso 6: hooks propios (jsdom)
 
-Instala: `npm install -D @testing-library/react @testing-library/dom`
+Instala: `npm install -D @testing-library/react @testing-library/dom mock-match-media`
 
 Un hook solo funciona dentro de un componente; `renderHook` crea uno invisible para poder probarlo. El valor actual
 queda en `result.current`.
@@ -399,7 +404,10 @@ queda en `result.current`.
 - Baja 1 por cada segundo.
 - Llega a 0 y **no baja de 0** aunque pase más tiempo.
 - Con `0` como valor inicial se queda en 0.
-- Si se desmonta mientras cuenta, no deja timers activos: `vi.getTimerCount()` es `0` después de `unmount()`.
+- Si se desmonta mientras cuenta, no deja timers activos: `vi.getTimerCount()` es `1` antes de `unmount()` (para
+  confirmar que había un timer) y `0` después.
+
+Los dos casos del 0 son los **valores límite** del hook: el borde donde el contador se tiene que detener.
 
 Cómo:
 
@@ -411,25 +419,36 @@ Cómo:
   Si adelantas 10 segundos en un solo `act`, el intervalo se ejecuta 10 veces antes de que React vuelva a renderizar y
   el contador termina en `-5`, algo que en el navegador no pasa.
 
-**`useToast` (en `stores/toast.store.ts`)**
+**`useToast` (en `stores/toast.store.ts`): no se testea**
 
-- Cada método (`success`, `error`, `warning`, `info`) agrega un toast con su variant: un solo test con
-  `it.each(['success', 'error', 'warning', 'info'] as const)`.
+Es un atajo sin lógica: cada método solo llama a `addToast` con una variante fija, así que un test unitario repetiría la
+implementación. Además, como `renderHook` necesita un `document`, obligaría a correr todo `toast.store.test.ts` en jsdom
+(unos 730 ms, frente a unos 130 ms en Node). Se aplica la regla del principio: sin lógica y sin riesgo de un error grave y
+silencioso, no hace falta un test unitario.
 
 **`hooks/useDevice.ts` (el más avanzado)**
 
-- Devuelve `desktop` si coincide `DESKTOP_QUERY`, `tablet` si solo coincide `TABLET_QUERY` y `mobile` si no coincide
-  ninguna.
-- Cambia de valor cuando se dispara el evento `change` del media query.
-- Al desmontar quita los listeners (`removeEventListener`).
+- Devuelve `desktop`, `tablet` o `mobile` según el ancho de la pantalla (1024, 600 y 400 px).
+- Se actualiza cuando la pantalla cambia de tamaño.
+- Al desmontarse deja de escuchar los cambios de pantalla.
 
 Cómo:
 
-- jsdom **no implementa** `window.matchMedia`, así que hay que simularlo: `vi.stubGlobal('matchMedia', vi.fn(...))`
-  devolviendo `{ matches, addEventListener, removeEventListener }`. Se restaura con `vi.unstubAllGlobals()` en
-  `afterEach`.
-- Para simular el `change`: guarda el listener que recibe `addEventListener`, cambia lo que devuelve `matches` y llama
-  al listener dentro de `act`.
+- jsdom **no implementa** `window.matchMedia`. La librería `mock-match-media` trae uno falso pero completo: evalúa las
+  media queries de verdad (incluido `rem`) contra el ancho que fija el test con `setMedia({ width })`, y dispara el
+  evento `change` cuando ese ancho cruza un límite.
+- Se instala con `vi.stubGlobal('matchMedia', matchMedia)` en `beforeEach`. En `afterEach`, `cleanup()` borra el ancho y
+  los listeners que guardó la librería, y `vi.unstubAllGlobals()` quita el `matchMedia` falso.
+- Un helper `setScreenWidth(width)` cambia el ancho. Si el hook ya está montado, va dentro de `act`, porque cambia el
+  estado de React.
+- Para el desmontaje: después del `unmount()` se espía `window.matchMedia` y se cambia el ancho de 400 a 1024 px, que
+  cruza los dos límites. Si quedara algún listener, el hook volvería a preguntar el tamaño, así que se espera
+  `not.toHaveBeenCalled()`. Este test también pasaría si el hook nunca se hubiera suscrito, pero ese caso lo atrapa el
+  test de actualización.
+
+**Por qué una librería:** un mock escrito a mano solo imita lo que el hook usa hoy. El que había describía la pantalla
+con listas de queries en vez de anchos, no detectaba un listener quitado de la lista equivocada y fallaba ante un cambio
+válido del hook. `mock-match-media` se comporta como el navegador, así que el test queda más legible y más estricto.
 
 ### Paso 7: `src/api/services.ts` (mocks de módulos)
 
@@ -470,7 +489,7 @@ trabajo llaman "uso de mocks".
 - [x] Paso 3: schemas de zod
 - [x] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
 - [x] Paso 5: `toast.store`, `auth.store` y `user.store`
-- [ ] Paso 6: `useCountdown`, `useToast` y `useDevice`
+- [x] Paso 6: `useCountdown` y `useDevice`
 - [ ] Paso 7: `api/services.ts`
 
 ## Después: fase 2 (tests de componentes)
