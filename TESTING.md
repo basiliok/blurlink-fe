@@ -1,7 +1,7 @@
 # Práctica de testing — blurlink-fe
 
 Guía para practicar **tests unitarios** y **tests de componentes** con **Vitest** en este proyecto.
-Primero se hacen los unitarios (detallados en este documento) y después los de componentes.
+Primero se hacen los unitarios y después los de componentes; los dos están detallados en este documento.
 
 ## Alcance
 
@@ -32,8 +32,8 @@ transformaciones, bordes) o cuando un error sería grave y silencioso.
 | `jsdom`                                           | Paso 5            | Simula `window`, `document` y `localStorage` dentro de Node                                         |
 | `@testing-library/react` + `@testing-library/dom` | Paso 6            | `renderHook` para probar hooks. `@testing-library/dom` es una dependencia obligatoria de la primera |
 | `mock-match-media`                                | Paso 6            | Simula `window.matchMedia` (jsdom no lo trae): evalúa media queries contra un ancho falso           |
-
-La fase 2 (componentes) agregará `@testing-library/user-event` y `@testing-library/jest-dom`.
+| `@testing-library/user-event`                     | Paso 8            | Simula lo que hace el usuario (clics, escribir) con la misma secuencia de eventos que el navegador  |
+| `@testing-library/jest-dom`                       | Paso 8            | Agrega a `expect` matchers para el DOM: `toBeInTheDocument`, `toBeDisabled`, `toHaveValue`...       |
 
 ### Paso 0: setup
 
@@ -264,7 +264,7 @@ anterior.
 | 4    | `utils/jwt.ts`      | Helpers para datos de prueba, `toThrow`, TDD sobre un bug             | Node         |
 | 5    | Stores de zustand   | `beforeEach`, `vi.spyOn`, `toMatchObject`, `localStorage`             | Node / jsdom |
 | 6    | Hooks propios       | `renderHook`, `act`, fake timers, `vi.stubGlobal`, valores límite     | jsdom        |
-| 7    | `api/services.ts`   | `vi.mock`, `vi.mocked`, `mockResolvedValue`, tests async              | Node         |
+| 7    | `api/services.ts`   | No se testea (ver el paso 7)                                          | —            |
 
 ### Paso 1: `src/utils/url.ts`
 
@@ -463,7 +463,220 @@ servicio, axios y sus interceptores reales. En esta práctica la integración qu
 
 ---
 
+## Guía de tests de componentes (fase 2)
+
+Un test de componente **renderiza** el componente en el DOM de jsdom, lo **busca como lo ve el usuario** (por su rol, su
+label o su texto) y **simula lo que hace el usuario** (clics, escribir). Comprueba lo que aparece en pantalla y lo que
+el componente le pide al resto de la app (por ejemplo, llamar a `mutate`), no su estado interno.
+
+Los hooks de datos (`src/api`) se reemplazan con `vi.mock`: el componente se prueba aislado, sin React Query ni backend.
+Probarlo con los hooks y los servicios reales, simulando la red con MSW, sería un test de integración, que en esta
+práctica queda fuera del alcance.
+
+| Paso | Componente                 | Conceptos nuevos                                                         |
+| ---- | -------------------------- | ------------------------------------------------------------------------ |
+| 8    | Setup                      | Archivo de setup, `cleanup`, matchers de jest-dom                        |
+| 9    | `GenericIcon`              | `render`, `screen`, `getByText`, `toBeInTheDocument`, snapshots          |
+| 10   | `Dropdown`                 | `userEvent`, `queryBy`, clic afuera, `children` como función             |
+| 11   | `AuthGuard` y `GuestGuard` | `MemoryRouter` y `Routes`, preparar la sesión con el store real          |
+| 12   | `Register`                 | `getByLabelText`, `user.type`, `vi.mock` de un hook, `toBeDisabled`      |
+| 13   | `DeleteChainModal`         | Fake timers con `userEvent`, ejecutar el `onSuccess` que recibe `mutate` |
+
+No se testean los componentes sin lógica (`Line`, `Loading`, `NotFound`...), `Tooltip` (calcula su posición con
+`getBoundingClientRect`, que en jsdom siempre devuelve 0) ni los que dependen del drag and drop (`ChainCard`,
+`DraggableLinkCard`). Los demás repiten lo que se practica en estos pasos.
+
+### Convenciones de los tests de componentes
+
+Se suman a las de la fase 1.
+
+**1. Archivo `.test.tsx` en jsdom.** El test vive al lado del componente (`Dropdown.test.tsx`), usa `.tsx` porque
+renderiza JSX y declara `// @vitest-environment jsdom` en su primera línea.
+
+**2. Buscar como el usuario**, en este orden:
+
+1. `getByRole('button', { name: 'Sign up' })`: por su rol y su nombre accesible, como lo encuentra un lector de
+   pantalla.
+2. `getByLabelText('Email')`: los inputs, por su `<label>`.
+3. `getByText('Page not found')`: el texto que no es interactivo.
+
+`getByTestId` solo si no hay otra forma. **Por qué:** si el test no encuentra un botón por su rol y su nombre, una
+persona con lector de pantalla tampoco, así que el test también detecta problemas de accesibilidad. Además, no depende
+de las clases ni de la estructura del HTML, que cambian con el diseño.
+
+**3. `getBy`, `queryBy` y `findBy`:**
+
+| Variante  | Si no encuentra el elemento      | Cuándo se usa                                                         |
+| --------- | -------------------------------- | --------------------------------------------------------------------- |
+| `getBy`   | Lanza un error                   | El elemento tiene que estar                                           |
+| `queryBy` | Devuelve `null`                  | Para comprobar que **no** está: `expect(...).not.toBeInTheDocument()` |
+| `findBy`  | Espera y, si no aparece, rechaza | El elemento aparece después de algo asíncrono                         |
+
+**4. `userEvent` en vez de `fireEvent`.** Se crea con `const user = userEvent.setup()` antes del `render`, y cada acción
+lleva `await`: `await user.click(button)`. **Por qué:** `fireEvent.click` dispara solo el evento `click`; `user.click`
+dispara la secuencia del navegador (`pointerdown`, `mousedown`, `focus`, `pointerup`, `mouseup`, `click`), así que el
+componente reacciona como con un usuario real.
+
+**5. Matchers de jest-dom:** `toBeInTheDocument`, `toBeDisabled`, `toBeEnabled`, `toHaveValue`, `toHaveTextContent`.
+**Por qué:** se leen como una frase y, cuando fallan, el mensaje muestra el HTML que encontraron.
+
+### Paso 8: setup de la fase 2
+
+Instala: `npm install -D @testing-library/user-event @testing-library/jest-dom`
+
+`src/setupTests.ts`:
+
+```ts
+import { afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom/vitest';
+
+afterEach(() => {
+    cleanup();
+});
+```
+
+En `vite.config.ts`, `defineConfig` pasa a importarse de `vitest/config` y se registra el archivo:
+
+```ts
+test: {
+    setupFiles: ['./src/setupTests.ts'],
+},
+```
+
+- **`cleanup`** desmonta lo que renderizó cada test. Testing Library lo hace solo cuando Vitest expone `afterEach` como
+  global (`globals: true`), y aquí no (convención 8). Sin `cleanup`, el DOM de un test se queda para el siguiente, que
+  puede encontrar elementos que no renderizó y fallar por algo que no tiene que ver con lo que prueba.
+- **`@testing-library/jest-dom/vitest`** agrega los matchers y sus tipos al `expect` de Vitest. Sin él, el test falla
+  con `Invalid Chai property: toBeInTheDocument`.
+- **`defineConfig` de `vitest/config`** es el mismo de Vite, pero con los tipos de la clave `test`. Con el de `vite`,
+  `npm run build` falla con `'test' does not exist in type 'UserConfigExport'`.
+- El archivo vive en `src` para que `tsc -b` vea los tipos de los matchers al revisar los tests.
+- Corre antes de **cada** archivo de test, también de los de Node. Cuesta poco: la suite pasó de unos 870 ms a unos
+  900 ms.
+
+### Paso 9: `GenericIcon`
+
+Es el ícono por defecto de un link: un cuadrado con la inicial de su nombre.
+
+Casos:
+
+- Muestra la inicial en mayúscula: `github` → `G`.
+- Sin nombre (`null` o `''`) muestra `?`.
+- Snapshot del ícono con `size="large"` y `radius="round"`.
+
+Cómo:
+
+- `render(<GenericIcon name="github" />)` y después `expect(screen.getByText('G')).toBeInTheDocument()`. `screen` busca
+  en todo el `document`, así que no hace falta guardar lo que devuelve `render`.
+- La primera vez, `toMatchSnapshot()` guarda el HTML en `__snapshots__/GenericIcon.test.tsx.snap`, y las siguientes lo
+  compara. Si el cambio fue a propósito, se actualiza con `npx vitest run -u` y el `.snap` se commitea junto al test.
+
+**Por qué un solo snapshot:** falla con cualquier cambio del HTML, incluidas las clases de Tailwind. Con muchos, se
+terminan actualizando sin leerlos y dejan de proteger. Sirve para HTML chico y estable como este; el comportamiento se
+prueba con queries y matchers.
+
+### Paso 10: `Dropdown`
+
+Menú que se abre con un botón (`trigger`) y se cierra con otro clic en ese botón, con un clic afuera o desde su
+contenido.
+
+Casos:
+
+- Empieza cerrado: su contenido no está en el DOM.
+- Un clic en el trigger lo abre y otro clic lo cierra.
+- Un clic afuera lo cierra.
+- Un clic dentro del menú no lo cierra.
+- Si `children` es una función, el `close` que recibe cierra el menú.
+
+Cómo:
+
+- El test le pasa su propio trigger y contenido (`trigger={<span>Options</span>}`), así el botón se busca con
+  `getByRole('button', { name: 'Options' })`.
+- Clic afuera: `await user.click(document.body)`.
+
+### Paso 11: `AuthGuard` y `GuestGuard`
+
+Protegen las rutas: `AuthGuard` solo deja pasar con sesión y `GuestGuard` solo sin sesión.
+
+Casos:
+
+- `AuthGuard`: sin sesión redirige a `/`; con sesión muestra la ruta protegida.
+- `GuestGuard`: con sesión redirige a `/home`; sin sesión muestra la ruta.
+
+Cómo:
+
+- Rutas en memoria con páginas falsas, para ver a dónde llegó:
+
+    ```tsx
+    <MemoryRouter initialEntries={['/home']}>
+        <Routes>
+            <Route path="/" element={<p>Login page</p>} />
+            <Route element={<AuthGuard />}>
+                <Route path="/home" element={<p>Home page</p>} />
+            </Route>
+        </Routes>
+    </MemoryRouter>
+    ```
+
+- La sesión se prepara con el store real: `useAuthStore.setState({ token: 'token-123', isAuthenticated: true })`. Se
+  resetea en `beforeEach`, como en el paso 5.
+
+### Paso 12: `Register`
+
+Formulario de registro que valida los datos antes de llamar a la API.
+
+Casos:
+
+- Con datos válidos llama a `register` con `{ email, password, inviteCode }`.
+- Con un dato inválido muestra su mensaje y no llama a `register`:
+
+    | Campo       | Valor          | Mensaje                                     |
+    | ----------- | -------------- | ------------------------------------------- |
+    | Email       | vacío          | `Email is required`                         |
+    | Email       | `user@example` | `Invalid email format`                      |
+    | Password    | vacío          | `Password is required`                      |
+    | Password    | `abc123`       | `Password must be at least 8 characters`    |
+    | Password    | `abcdefgh`     | `Password must contain letters and numbers` |
+    | Password    | `12345678`     | `Password must contain letters and numbers` |
+    | Invite code | vacío          | `Invite code is required`                   |
+
+- Si la API responde con un error, muestra su mensaje.
+- Mientras envía, el botón dice `Creating account...` y está deshabilitado.
+
+Cómo:
+
+- `vi.mock('../api', () => ({ useRegister: vi.fn() }))`, y en cada test `vi.mocked(useRegister).mockReturnValue(...)`
+  con lo que usa el componente: `mutate`, `isPending` y `error`.
+- Se renderiza dentro de un `MemoryRouter`, porque el formulario tiene un `<Link>`.
+- El email es un `<input type="email">`: jsdom, igual que el navegador, no envía el formulario si el valor no tiene
+  forma de email (`user@`). Por eso el caso de formato usa `user@example`, que el navegador acepta y la regex del
+  componente rechaza.
+
+### Paso 13: `DeleteChainModal` (el más avanzado)
+
+Pide confirmación para borrar un grupo y bloquea el botón **Delete** durante 3 segundos.
+
+Casos:
+
+- Al abrirse, el botón dice `Delete (3)` y está deshabilitado; a los 3 segundos dice `Delete` y se habilita.
+- Un clic en **Delete** llama a `deleteChain` con `{ chainId, body: { spaceId } }`.
+- Cuando el borrado termina bien, llama a `onClose`.
+- Mientras borra, el botón dice `Deleting...` y **Cancel** está deshabilitado.
+- **Cancel** llama a `onClose`.
+
+Cómo:
+
+- Fake timers, como en `useCountdown`, y `userEvent.setup({ advanceTimers: vi.advanceTimersByTime })` para que
+  user-event use el mismo reloj falso.
+- Para el cierre, el `mutate` falso ejecuta el `onSuccess` que le pasa el componente (`mockImplementation`), como si la
+  API hubiera respondido bien.
+
+---
+
 ## Progreso
+
+### Fase 1: unitarios
 
 - [x] Paso 0: instalar Vitest y agregar los scripts
 - [x] Paso 1: `utils/url.ts`
@@ -474,9 +687,11 @@ servicio, axios y sus interceptores reales. En esta práctica la integración qu
 - [x] Paso 6: `useCountdown` y `useDevice`
 - [x] Paso 7: `api/services.ts` (no se testea)
 
-## Después: fase 2 (tests de componentes)
+### Fase 2: componentes
 
-Cuando terminen los unitarios: se instalan `@testing-library/user-event` y `@testing-library/jest-dom`, se renderizan
-componentes con `render`, se buscan elementos como los ve el usuario (`screen.getByRole`, `screen.getByText`), se
-simula la interacción con `userEvent` y se prueban snapshots con `toMatchSnapshot()`. Tendrá su propia guía en este
-documento.
+- [x] Paso 8: setup (`user-event`, `jest-dom` y `setupTests.ts`)
+- [ ] Paso 9: `GenericIcon`
+- [ ] Paso 10: `Dropdown`
+- [ ] Paso 11: `AuthGuard` y `GuestGuard`
+- [ ] Paso 12: `Register`
+- [ ] Paso 13: `DeleteChainModal`
