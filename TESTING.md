@@ -5,12 +5,12 @@ Primero se hacen los unitarios (detallados en este documento) y después los de 
 
 ## Alcance
 
-| Tipo        | ¿Se practica? | Qué cubre                                                                                     |
-| ----------- | ------------- | --------------------------------------------------------------------------------------------- |
-| Unitario    | Sí (fase 1)   | Funciones puras, schemas de zod, stores de zustand, hooks propios, servicios con API mockeada |
-| Componente  | Sí (fase 2)   | Un componente aislado: renderizarlo y simular la interacción del usuario                      |
-| Integración | No            | Varias piezas juntas con el backend simulado (MSW)                                            |
-| E2E         | No            | La app completa en un navegador real                                                          |
+| Tipo        | ¿Se practica? | Qué cubre                                                                |
+| ----------- | ------------- | ------------------------------------------------------------------------ |
+| Unitario    | Sí (fase 1)   | Funciones puras, schemas de zod, stores de zustand, hooks propios        |
+| Componente  | Sí (fase 2)   | Un componente aislado: renderizarlo y simular la interacción del usuario |
+| Integración | No            | Varias piezas juntas con el backend simulado (MSW)                       |
+| E2E         | No            | La app completa en un navegador real                                     |
 
 Quedan fuera de los unitarios:
 
@@ -19,6 +19,7 @@ Quedan fuera de los unitarios:
 - `src/config/axios.ts`: los interceptores dependen de axios y de los stores a la vez.
 - `src/constants/`, `src/types/` y `src/assets/`: no tienen lógica que probar.
 - El hook `useToast` (en `src/stores/toast.store.ts`): es un atajo sin lógica (ver el paso 6).
+- `src/api/services.ts`: sus funciones solo pasan la llamada a axios, sin lógica (ver el paso 7).
 
 **Regla para decidir qué testear:** un test unitario vale la pena cuando el código tiene lógica (condiciones, cálculos,
 transformaciones, bordes) o cuando un error sería grave y silencioso.
@@ -450,34 +451,15 @@ Cómo:
 con listas de queries en vez de anchos, no detectaba un listener quitado de la lista equivocada y fallaba ante un cambio
 válido del hook. `mock-match-media` se comporta como el navegador, así que el test queda más legible y más estricto.
 
-### Paso 7: `src/api/services.ts` (mocks de módulos)
+### Paso 7: `src/api/services.ts` (no se testea)
 
-Cada función llama a `api.get`, `api.post`, `api.patch` o `api.delete` y devuelve `data.result`. El test **no hace
-peticiones reales**: reemplaza el módulo `config/axios` por uno falso.
+Cada función solo pasa la llamada a axios (`api.get`, `api.post`, `api.patch` o `api.delete`) y devuelve `data.result`.
+Se aplica la regla del principio: no tiene lógica, y casi cualquier error se notaría la primera vez que se usa la
+pantalla (una URL mal escrita o dos ids invertidos). El error más probable en `deleteChain`, pasar el body como segundo
+argumento de `api.delete`, ya lo marca TypeScript (`TS2559`).
 
-Casos (para cada función):
-
-- Llama al método y al endpoint correctos, con el body correcto. Por ejemplo, `login` → `api.post('/sign-in', credentials)`,
-  `getChainsBySpaceId('s1')` → `api.get('/space/s1/chain')` y `deleteChain` → `api.delete('/chain/c1', { data: body })`.
-- Devuelve el `data.result` de la respuesta.
-- Si la petición falla, la función propaga el error: `await expect(login(credentials)).rejects.toThrow()`.
-
-Cómo:
-
-```ts
-vi.mock('../config/axios', () => ({
-    api: { get: vi.fn(), post: vi.fn(), patch: vi.fn(), delete: vi.fn() },
-}));
-```
-
-- `vi.mocked(api.post).mockResolvedValue({ data: { result } } as AxiosResponse)` define qué "responde" el backend falso.
-  El `as AxiosResponse` hace falta porque el objeto falso no tiene todos los campos de una respuesta real de axios.
-- `expect(api.post).toHaveBeenCalledWith('/sign-in', credentials)` comprueba con qué se hizo la llamada.
-- `vi.clearAllMocks()` en `beforeEach`, para que las llamadas de un test no cuenten en el siguiente.
-
-**Por qué mockear:** un test unitario prueba **solo** la función. Si usara el backend real, sería lento y podría fallar
-por razones que no tienen que ver con el código (la red, los datos, un servidor caído). Esto es lo que las ofertas de
-trabajo llaman "uso de mocks".
+Normalmente estas funciones las cubren los tests de integración, que simulan la red con MSW y dejan correr el
+servicio, axios y sus interceptores reales. En esta práctica la integración queda fuera del alcance.
 
 ---
 
@@ -490,7 +472,7 @@ trabajo llaman "uso de mocks".
 - [x] Paso 4: `utils/jwt.ts` (incluido el caso base64url con TDD)
 - [x] Paso 5: `toast.store`, `auth.store` y `user.store`
 - [x] Paso 6: `useCountdown` y `useDevice`
-- [ ] Paso 7: `api/services.ts`
+- [x] Paso 7: `api/services.ts` (no se testea)
 
 ## Después: fase 2 (tests de componentes)
 
