@@ -3,6 +3,8 @@
 Guía para practicar **tests unitarios** y **tests de componentes** con **Vitest** en este proyecto.
 Primero se hacen los unitarios y después los de componentes; los dos están detallados en este documento.
 
+**Estado:** en pausa después del paso 10. Faltan los pasos 11 a 13 de la fase 2 (ver [Pendiente](#pendiente)).
+
 ## Alcance
 
 | Tipo        | ¿Se practica? | Qué cubre                                                                |
@@ -724,3 +726,12 @@ Cómo:
 - [ ] Paso 11: `AuthGuard` y `GuestGuard`
 - [ ] Paso 12: `Register`
 - [ ] Paso 13: `DeleteChainModal`
+
+### Pendiente
+
+La práctica quedó en pausa después del paso 10. Al retomarla, se sigue en este orden (el plan detallado de cada paso
+está en su sección de la guía de componentes):
+
+1. **Paso 11, `AuthGuard` y `GuestGuard`:** a dónde lleva cada guard con sesión y sin ella.
+2. **Paso 12, `Register`:** las validaciones del formulario, el error que devuelve la API y el botón mientras envía.
+3. **Paso 13, `DeleteChainModal`:** el botón **Delete** bloqueado 3 segundos, el borrado y el cierre del modal.
