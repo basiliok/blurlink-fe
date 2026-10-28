@@ -1,4 +1,4 @@
-import { GenericIcon } from './GenericIcon';
+import { GenericIcon } from './GenericIcon/GenericIcon';
 import { DotsThreeVerticalIcon } from '../assets/icons';
 
 export const MultiLinkCard = () => {

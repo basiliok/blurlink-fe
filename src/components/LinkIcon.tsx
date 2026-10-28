@@ -1,5 +1,5 @@
 import { isAvailableSvg } from '../constants';
-import { GenericIcon } from './GenericIcon';
+import { GenericIcon } from './GenericIcon/GenericIcon';
 import { SvgIcon } from './SvgIcon';
 
 interface LinkIconProps {

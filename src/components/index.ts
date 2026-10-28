@@ -1,4 +1,4 @@
-export * from './GenericIcon';
+export * from './GenericIcon/GenericIcon';
 export * from './SvgIcon';
 export * from './LinkIcon';
 export * from './Line';

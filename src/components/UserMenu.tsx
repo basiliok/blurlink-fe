@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/user.store';
 import { SignOutIcon } from '../assets/icons';
 import { Dropdown } from './Dropdown/Dropdown';
-import { GenericIcon } from './GenericIcon';
+import { GenericIcon } from './GenericIcon/GenericIcon';
 import { Line } from './Line';
 
 export const UserMenu = () => {
