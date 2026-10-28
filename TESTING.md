@@ -592,7 +592,8 @@ contenido.
 Casos:
 
 - Empieza cerrado: su contenido no está en el DOM.
-- Un clic en el trigger lo abre y otro clic lo cierra.
+- Un clic en el trigger lo abre.
+- Otro clic en el trigger lo cierra.
 - Un clic afuera lo cierra.
 - Un clic dentro del menú no lo cierra.
 - Si `children` es una función, el `close` que recibe cierra el menú.
@@ -600,8 +601,28 @@ Casos:
 Cómo:
 
 - El test le pasa su propio trigger y contenido (`trigger={<span>Options</span>}`), así el botón se busca con
-  `getByRole('button', { name: 'Options' })`.
+  `getByRole('button', { name: 'Options' })`. Un helper `renderDropdown()` lo dibuja y `getTrigger()` lo busca.
+- Cada test que hace clics es `async`, crea `const user = userEvent.setup()` antes del `render` y espera cada clic con
+  `await`.
+- Para comprobar que el menú está abierto, `getByText('Menu content')`; para comprobar que está cerrado,
+  `queryByText('Menu content')` con `not.toBeInTheDocument()` (convención 3).
 - Clic afuera: `await user.click(document.body)`.
+- Para el caso de `children` como función, el test le pasa una función que dibuja un botón que llama a `close`:
+  `{(close) => <button type="button" onClick={close}>New group</button>}`.
+
+**Qué bug atrapa cada test:** en el rojo se metió un bug por vez en `Dropdown.tsx`. Con los cinco juntos, dos tests
+pasaban igual, porque un bug tapaba a otro: si el menú empieza abierto, "lo abre" pasa aunque el trigger esté roto.
+
+| Bug                                          | Tests que fallaron                                              |
+| -------------------------------------------- | --------------------------------------------------------------- |
+| Empieza abierto                              | Todos menos el del clic afuera                                  |
+| El trigger solo abre                         | Otro clic en el trigger lo cierra                               |
+| Cualquier clic lo cierra, también adentro    | Un clic dentro no lo cierra · otro clic en el trigger lo cierra |
+| No escucha los clics afuera                  | Un clic afuera lo cierra                                        |
+| El `close` que recibe el contenido no cierra | `children` como función                                         |
+
+El tercero muestra por qué el trigger también cuenta como "adentro": `user.click` dispara `mousedown` y después
+`click`. Si el `mousedown` del trigger cerrara el menú, el `click` lo volvería a abrir.
 
 ### Paso 11: `AuthGuard` y `GuestGuard`
 
@@ -699,7 +720,7 @@ Cómo:
 
 - [x] Paso 8: setup (`user-event`, `jest-dom` y `setupTests.ts`)
 - [x] Paso 9: `GenericIcon`
-- [ ] Paso 10: `Dropdown`
+- [x] Paso 10: `Dropdown`
 - [ ] Paso 11: `AuthGuard` y `GuestGuard`
 - [ ] Paso 12: `Register`
 - [ ] Paso 13: `DeleteChainModal`
