@@ -9,6 +9,7 @@ export const AVAILABLE_SVGS = [
     'cibertec',
     'claude',
     'confluence',
+    'dev-to',
     'excel',
     'facebook',
     'figma',
