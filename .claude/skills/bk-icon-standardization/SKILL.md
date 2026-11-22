@@ -7,10 +7,15 @@ description: Estandariza los íconos SVG de marca de blurlink-fe (raíz, fondo, 
 
 El dibujo y sus colores quedan tal como vienen; solo se normaliza el envoltorio.
 
+## Envoltorio
+
 - Raíz: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32" fill="none">`.
 - Una figura que no tiene color propio ni lo hereda (de un grupo o del `<use>` que la dibuja) desaparecería con el `none` de la raíz: se le pone el color con que se veía (negro, si no traía ninguno).
 - Si el `viewBox` no es de 32 (por ejemplo, 300×300), se deja el suyo y solo se pone `width="48" height="48"`. Los trazos no se reescalan a mano.
 - Si el ícono tiene un fondo de cuadrado redondeado, pasa a `<rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="…"/>`, en lugar de `<rect width="32" height="32" rx="6">`.
-- Sin `<style>` con `@keyframes` ni `@import`: los íconos se cargan con `<img>`, donde no funcionan. Si el SVG los trae, se quitan.
+- Sin `@import` en el `<style>`: los íconos se cargan con `<img>`, que no carga recursos externos. Si el SVG lo trae, se quita.
 - Sangría de 2 espacios.
+
+## Archivo y registro
+
 - El archivo queda en `public/[marca].svg`. Si la marca es nueva, se registra en `AVAILABLE_SVGS` de `src/constants/svgs.ts`, en orden alfabético y con `'default'` primero.
