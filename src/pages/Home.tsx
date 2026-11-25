@@ -1,6 +1,6 @@
 import { useSpace, useChainsBySpaceId, useNotesBySpaceId } from '../api';
 import { ChainCard, CreateChainButton, Line, Loading, UserMenu } from '../components';
-import { FileTextIcon, ListIcon } from '../assets/icons';
+import { FileTextIcon } from '../assets/icons';
 import { useDevice } from '../hooks';
 
 export const Home = () => {
