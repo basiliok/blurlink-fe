@@ -1,5 +1,5 @@
 import { useSpace, useChainsBySpaceId, useNotesBySpaceId } from '../api';
-import { ChainCard, CreateMenu, Line, Loading, UserMenu } from '../components';
+import { ChainCard, CreateChainButton, Line, Loading, UserMenu } from '../components';
 import { FileTextIcon, ListIcon } from '../assets/icons';
 import { useDevice } from '../hooks';
 
@@ -36,50 +36,44 @@ export const Home = () => {
 
     return (
         <div className="h-full w-full">
-            <header
-                className={`border-input-border flex h-16 items-center justify-between border-b bg-[#151B23] py-3 text-[#D1D7E0] ${isDesktop ? 'px-12' : 'px-6'}`}
-            >
-                <div className="flex flex-row items-center gap-4">
-                    <ListIcon />
+            <div className="h-full w-full bg-[#212830]">
+                <header
+                    className={`flex h-16 items-center justify-between py-3 text-[#D1D7E0] ${isDesktop ? 'px-12' : 'px-6'}`}
+                >
                     <h1 className="text-2xl font-bold">{space.name}</h1>
-                </div>
 
-                <div className="flex h-full items-center gap-3">
-                    <CreateMenu spaceId={space.id} nextChainPosition={nextChainPosition} />
-
-                    <div className="h-6">
-                        <Line orientation="vertical" />
+                    <div className="flex h-full items-center gap-3">
+                        <CreateChainButton spaceId={space.id} nextChainPosition={nextChainPosition} />
+                        <UserMenu />
                     </div>
+                </header>
 
-                    <UserMenu />
-                </div>
-            </header>
-
-            <main className="h-[calc(100%-4rem)] overflow-y-auto bg-[#212830]">
-                <div className={`flex flex-col gap-4 ${isDesktop ? 'mx-auto max-w-400 px-12 py-6' : 'p-3.5'}`}>
-                    {notes && notes.length > 0 && (
-                        <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
-                            <div className="flex items-center gap-2 text-[#8B949E]">
-                                <FileTextIcon size="1.25rem" />
-                                <span className="text-sm font-medium">Notes</span>
+                <main className="h-[calc(100%-4rem)] overflow-y-auto">
+                    <div className={`flex flex-col gap-4 ${isDesktop ? 'mx-auto max-w-400 px-12 py-6' : 'p-3.5'}`}>
+                        {notes && notes.length > 0 && (
+                            <div className="flex flex-col gap-2 rounded-lg border border-[#3D444D] bg-[#151B23] p-4 shadow-md">
+                                <div className="flex items-center gap-2 text-[#8B949E]">
+                                    <FileTextIcon size="1.25rem" />
+                                    <span className="text-sm font-medium">Notes</span>
+                                </div>
+                                <Line />
+                                <div className="flex flex-col gap-4">
+                                    {notes.map((note) => (
+                                        <div key={note.id} className="flex flex-col gap-1">
+                                            <span className="text-sm font-medium text-[#D1D7E0]">{note.title}</span>
+                                            <p className="min-h-10 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#D1D7E0]">
+                                                {note.content}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <Line />
-                            <div className="flex flex-col gap-4">
-                                {notes.map((note) => (
-                                    <div key={note.id} className="flex flex-col gap-1">
-                                        <span className="text-sm font-medium text-[#D1D7E0]">{note.title}</span>
-                                        <p className="min-h-10 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#D1D7E0]">
-                                            {note.content}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                    {sortedChains.length > 0 &&
-                        sortedChains.map((chain) => <ChainCard key={chain.id} chain={chain} spaceId={space.id} />)}
-                </div>
-            </main>
+                        )}
+                        {sortedChains.length > 0 &&
+                            sortedChains.map((chain) => <ChainCard key={chain.id} chain={chain} spaceId={space.id} />)}
+                    </div>
+                </main>
+            </div>
         </div>
     );
 };
