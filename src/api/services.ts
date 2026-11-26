@@ -1,6 +1,7 @@
 import { api } from '../config/axios';
 import type {
     ApiResponse,
+    AuthToken,
     BulkSimpleLinksResponse,
     Chain,
     CreateBulkLinksRequest,
@@ -19,38 +20,38 @@ import type {
     UserWithoutPassword,
 } from '../types';
 
-export const login = async (credentials: LoginRequest): Promise<any> => {
-    const { data } = await api.post<ApiResponse>('/sign-in', credentials);
+export const login = async (credentials: LoginRequest): Promise<AuthToken> => {
+    const { data } = await api.post<ApiResponse<AuthToken>>('/sign-in', credentials);
     return data.result;
 };
 
 export const register = async (request: RegisterRequest): Promise<UserWithoutPassword> => {
-    const { data } = await api.post<ApiResponse>('/user', request);
+    const { data } = await api.post<ApiResponse<UserWithoutPassword>>('/user', request);
     return data.result;
 };
 
 export const getSpace = async (): Promise<Space[]> => {
-    const { data } = await api.get<ApiResponse>('/space');
+    const { data } = await api.get<ApiResponse<Space[]>>('/space');
     return data.result;
 };
 
 export const getChainsBySpaceId = async (spaceId: string): Promise<Chain[]> => {
-    const { data } = await api.get<ApiResponse>(`/space/${spaceId}/chain`);
+    const { data } = await api.get<ApiResponse<Chain[]>>(`/space/${spaceId}/chain`);
     return data.result;
 };
 
 export const getNotesBySpaceId = async (spaceId: string): Promise<Note[]> => {
-    const { data } = await api.get<ApiResponse>(`/space/${spaceId}/note`);
+    const { data } = await api.get<ApiResponse<Note[]>>(`/space/${spaceId}/note`);
     return data.result;
 };
 
 export const createChain = async (request: CreateChainRequest): Promise<Chain> => {
-    const { data } = await api.post<ApiResponse>('/chain', request);
+    const { data } = await api.post<ApiResponse<Chain>>('/chain', request);
     return data.result;
 };
 
 export const updateChain = async ({ chainId, body }: UpdateChainParams): Promise<Chain> => {
-    const { data } = await api.patch<ApiResponse>(`/chain/${chainId}`, body);
+    const { data } = await api.patch<ApiResponse<Chain>>(`/chain/${chainId}`, body);
     return data.result;
 };
 
@@ -59,22 +60,22 @@ export const deleteChain = async ({ chainId, body }: DeleteChainParams): Promise
 };
 
 export const getLinksByChainId = async (spaceId: string, chainId: string): Promise<LinkItem[]> => {
-    const { data } = await api.get<ApiResponse>(`/space/${spaceId}/chain/${chainId}/link`);
+    const { data } = await api.get<ApiResponse<LinkItem[]>>(`/space/${spaceId}/chain/${chainId}/link`);
     return data.result;
 };
 
 export const createBulkLinks = async (request: CreateBulkLinksRequest): Promise<BulkSimpleLinksResponse> => {
-    const { data } = await api.post<ApiResponse>('/link/simple/bulk', request);
+    const { data } = await api.post<ApiResponse<BulkSimpleLinksResponse>>('/link/simple/bulk', request);
     return data.result;
 };
 
 export const updateSimpleLink = async ({ linkId, body }: UpdateSimpleLinkParams): Promise<SimpleLink> => {
-    const { data } = await api.patch<ApiResponse>(`/link/simple/${linkId}`, body);
+    const { data } = await api.patch<ApiResponse<SimpleLink>>(`/link/simple/${linkId}`, body);
     return data.result;
 };
 
 export const moveSimpleLink = async ({ linkId, body }: MoveSimpleLinkParams): Promise<SimpleLink> => {
-    const { data } = await api.post<ApiResponse>(`/link/simple/${linkId}/move`, body);
+    const { data } = await api.post<ApiResponse<SimpleLink>>(`/link/simple/${linkId}/move`, body);
     return data.result;
 };
 

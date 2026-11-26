@@ -9,10 +9,14 @@ export const ERROR_CODES = {
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
-export interface ApiResponse {
-    success: boolean;
-    result?: any;
-    error?: {
+export interface ApiResponse<TResult> {
+    success: true;
+    result: TResult;
+}
+
+export interface ApiErrorResponse {
+    success: false;
+    error: {
         code: ErrorCode;
         message: string;
         details?: unknown;

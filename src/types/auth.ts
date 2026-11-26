@@ -5,7 +5,6 @@ export interface TokenPayload {
 
 export interface AuthToken {
     token: string;
-    expiresIn: string;
 }
 
 export interface LoginRequest {

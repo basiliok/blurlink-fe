@@ -9,10 +9,5 @@ export const SubIcon = ({ color }: SubIconProps) => {
 
     const { bg, border } = subIconColorClasses[color];
 
-    return (
-        <span
-            aria-hidden
-            className={`absolute -top-0.5 -left-0.5 h-1 w-1 rounded-full border ${bg} ${border}`}
-        />
-    );
+    return <span aria-hidden className={`absolute -top-0.5 -left-0.5 h-1 w-1 rounded-full border ${bg} ${border}`} />;
 };
